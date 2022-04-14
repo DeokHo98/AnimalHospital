@@ -7,23 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E091E62919670CD428E50CDB /* Pods_AnimalHospital.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0CE50DF15741B0DE18F662 /* Pods_AnimalHospital.framework */; };
 		FE6776DD2807E62200BE5741 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6776DC2807E62200BE5741 /* AppDelegate.swift */; };
 		FE6776DF2807E62200BE5741 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6776DE2807E62200BE5741 /* SceneDelegate.swift */; };
-		FE6776E12807E62200BE5741 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6776E02807E62200BE5741 /* ViewController.swift */; };
-		FE6776E42807E62200BE5741 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE6776E22807E62200BE5741 /* Main.storyboard */; };
 		FE6776E62807E62400BE5741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE6776E52807E62400BE5741 /* Assets.xcassets */; };
 		FE6776E92807E62400BE5741 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE6776E72807E62400BE5741 /* LaunchScreen.storyboard */; };
+		FEFB6EDB2807F05500B76CC3 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDA2807F05500B76CC3 /* HomeController.swift */; };
+		FEFB6EDD2807F06100B76CC3 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */; };
+		FEFB6EDF2807F06A00B76CC3 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDE2807F06A00B76CC3 /* SearchModel.swift */; };
+		FEFB6EE12807F07C00B76CC3 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EE02807F07C00B76CC3 /* SearchCell.swift */; };
+		FEFB6EE42807F09700B76CC3 /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EE32807F09700B76CC3 /* SearchAPI.swift */; };
+		FEFB6EE62807F0A200B76CC3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EE52807F0A200B76CC3 /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E0CE50DF15741B0DE18F662 /* Pods_AnimalHospital.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnimalHospital.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		753ADA84033BD1F23F6E48EC /* Pods-AnimalHospital.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalHospital.debug.xcconfig"; path = "Target Support Files/Pods-AnimalHospital/Pods-AnimalHospital.debug.xcconfig"; sourceTree = "<group>"; };
+		F4F696B31955A7055A50450D /* Pods-AnimalHospital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalHospital.release.xcconfig"; path = "Target Support Files/Pods-AnimalHospital/Pods-AnimalHospital.release.xcconfig"; sourceTree = "<group>"; };
 		FE6776D92807E62200BE5741 /* AnimalHospital.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalHospital.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE6776DC2807E62200BE5741 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FE6776DE2807E62200BE5741 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FE6776E02807E62200BE5741 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FE6776E32807E62200BE5741 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FE6776E52807E62400BE5741 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE6776E82807E62400BE5741 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FE6776EA2807E62400BE5741 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEFB6EDA2807F05500B76CC3 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		FEFB6EDE2807F06A00B76CC3 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
+		FEFB6EE02807F07C00B76CC3 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		FEFB6EE32807F09700B76CC3 /* SearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
+		FEFB6EE52807F0A200B76CC3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +43,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E091E62919670CD428E50CDB /* Pods_AnimalHospital.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		89D2DEBC3D6C981F6A8BADB8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				753ADA84033BD1F23F6E48EC /* Pods-AnimalHospital.debug.xcconfig */,
+				F4F696B31955A7055A50450D /* Pods-AnimalHospital.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C12030658C75B2472B31E6BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E0CE50DF15741B0DE18F662 /* Pods_AnimalHospital.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FE6776D02807E62200BE5741 = {
 			isa = PBXGroup;
 			children = (
 				FE6776DB2807E62200BE5741 /* AnimalHospital */,
 				FE6776DA2807E62200BE5741 /* Products */,
+				89D2DEBC3D6C981F6A8BADB8 /* Pods */,
+				C12030658C75B2472B31E6BD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +88,67 @@
 		FE6776DB2807E62200BE5741 /* AnimalHospital */ = {
 			isa = PBXGroup;
 			children = (
+				FE6776F52807EED600BE5741 /* Controller */,
+				FE6776F42807EED200BE5741 /* ViewModel */,
+				FE6776F32807EECD00BE5741 /* Model */,
+				FE6776F22807EEC800BE5741 /* View */,
+				FEFB6EE22807F08100B76CC3 /* API */,
+				FE6776F02807EEB700BE5741 /* Utils */,
 				FE6776DC2807E62200BE5741 /* AppDelegate.swift */,
 				FE6776DE2807E62200BE5741 /* SceneDelegate.swift */,
-				FE6776E02807E62200BE5741 /* ViewController.swift */,
-				FE6776E22807E62200BE5741 /* Main.storyboard */,
 				FE6776E52807E62400BE5741 /* Assets.xcassets */,
 				FE6776E72807E62400BE5741 /* LaunchScreen.storyboard */,
 				FE6776EA2807E62400BE5741 /* Info.plist */,
 			);
 			path = AnimalHospital;
+			sourceTree = "<group>";
+		};
+		FE6776F02807EEB700BE5741 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				FEFB6EE52807F0A200B76CC3 /* Extension.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		FE6776F22807EEC800BE5741 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FEFB6EE02807F07C00B76CC3 /* SearchCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FE6776F32807EECD00BE5741 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FEFB6EDE2807F06A00B76CC3 /* SearchModel.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		FE6776F42807EED200BE5741 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		FE6776F52807EED600BE5741 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FEFB6EDA2807F05500B76CC3 /* HomeController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		FEFB6EE22807F08100B76CC3 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				FEFB6EE32807F09700B76CC3 /* SearchAPI.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +158,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FE6776ED2807E62400BE5741 /* Build configuration list for PBXNativeTarget "AnimalHospital" */;
 			buildPhases = (
+				6BBFCFD856D8FA8A9AE041B2 /* [CP] Check Pods Manifest.lock */,
 				FE6776D52807E62200BE5741 /* Sources */,
 				FE6776D62807E62200BE5741 /* Frameworks */,
 				FE6776D72807E62200BE5741 /* Resources */,
+				749CDC1E6B3286C748A1DD83 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,18 +213,64 @@
 			files = (
 				FE6776E92807E62400BE5741 /* LaunchScreen.storyboard in Resources */,
 				FE6776E62807E62400BE5741 /* Assets.xcassets in Resources */,
-				FE6776E42807E62200BE5741 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6BBFCFD856D8FA8A9AE041B2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AnimalHospital-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		749CDC1E6B3286C748A1DD83 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnimalHospital/Pods-AnimalHospital-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnimalHospital/Pods-AnimalHospital-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnimalHospital/Pods-AnimalHospital-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FE6776D52807E62200BE5741 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE6776E12807E62200BE5741 /* ViewController.swift in Sources */,
+				FEFB6EE62807F0A200B76CC3 /* Extension.swift in Sources */,
+				FEFB6EDB2807F05500B76CC3 /* HomeController.swift in Sources */,
+				FEFB6EDD2807F06100B76CC3 /* SearchViewModel.swift in Sources */,
+				FEFB6EE42807F09700B76CC3 /* SearchAPI.swift in Sources */,
+				FEFB6EE12807F07C00B76CC3 /* SearchCell.swift in Sources */,
+				FEFB6EDF2807F06A00B76CC3 /* SearchModel.swift in Sources */,
 				FE6776DD2807E62200BE5741 /* AppDelegate.swift in Sources */,
 				FE6776DF2807E62200BE5741 /* SceneDelegate.swift in Sources */,
 			);
@@ -147,14 +279,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		FE6776E22807E62200BE5741 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FE6776E32807E62200BE5741 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		FE6776E72807E62400BE5741 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -203,6 +327,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -217,7 +343,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -264,6 +390,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -272,7 +400,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -284,6 +412,7 @@
 		};
 		FE6776EE2807E62400BE5741 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 753ADA84033BD1F23F6E48EC /* Pods-AnimalHospital.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -297,6 +426,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,12 +436,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		FE6776EF2807E62400BE5741 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4F696B31955A7055A50450D /* Pods-AnimalHospital.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -325,6 +456,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -334,7 +466,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
