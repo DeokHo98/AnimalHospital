@@ -9,6 +9,10 @@ import Foundation
 
 final class HeaderViewModel {
     
+    deinit {
+        print("헤더뷰 모델 메모리 해제")
+    }
+    
     var model: HospitalModel
     
     var phoneNumber: String {

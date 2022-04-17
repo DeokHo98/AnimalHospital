@@ -11,6 +11,7 @@ import NMapsMap
 final class SearchViewModel {
     
     
+    
     var models : [SearchModel] = []
     
     var loddingStart: () -> Void = {}

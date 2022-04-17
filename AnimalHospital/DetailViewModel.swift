@@ -8,6 +8,11 @@
 import Foundation
 
 final class DetailViewModel {
+    
+    deinit {
+        print("디테일뷰 모델 메모리 해제")
+    }
+    
     let model: HospitalModel
 
     var name: String {

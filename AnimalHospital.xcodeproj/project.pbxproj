@@ -22,6 +22,7 @@
 		FED0BDBD280A9C77004195DC /* DetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0BDBC280A9C77004195DC /* DetailHeader.swift */; };
 		FED0BDC2280AA6DC004195DC /* DetailFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0BDC1280AA6DC004195DC /* DetailFooter.swift */; };
 		FEE11C01280BD8C800C5CA53 /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE11C00280BD8C800C5CA53 /* HeaderViewModel.swift */; };
+		FEE11C03280BDE9B00C5CA53 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE11C02280BDE9B00C5CA53 /* SearchViewController.swift */; };
 		FEFB6EDB2807F05500B76CC3 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDA2807F05500B76CC3 /* HomeController.swift */; };
 		FEFB6EDD2807F06100B76CC3 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */; };
 		FEFB6EDF2807F06A00B76CC3 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDE2807F06A00B76CC3 /* SearchModel.swift */; };
@@ -50,6 +51,7 @@
 		FED0BDBC280A9C77004195DC /* DetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeader.swift; sourceTree = "<group>"; };
 		FED0BDC1280AA6DC004195DC /* DetailFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFooter.swift; sourceTree = "<group>"; };
 		FEE11C00280BD8C800C5CA53 /* HeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewModel.swift; sourceTree = "<group>"; };
+		FEE11C02280BDE9B00C5CA53 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FEFB6EDA2807F05500B76CC3 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		FEFB6EDE2807F06A00B76CC3 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				FEFB6EDA2807F05500B76CC3 /* HomeController.swift */,
+				FEE11C02280BDE9B00C5CA53 /* SearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				FEFB6EE12807F07C00B76CC3 /* SearchCell.swift in Sources */,
 				FEFB6EDF2807F06A00B76CC3 /* SearchModel.swift in Sources */,
 				FED0BDBD280A9C77004195DC /* DetailHeader.swift in Sources */,
+				FEE11C03280BDE9B00C5CA53 /* SearchViewController.swift in Sources */,
 				FE37754B2807FDA700B76C9A /* HospitalModel.swift in Sources */,
 				FE6776DD2807E62200BE5741 /* AppDelegate.swift in Sources */,
 				FE6776DF2807E62200BE5741 /* SceneDelegate.swift in Sources */,

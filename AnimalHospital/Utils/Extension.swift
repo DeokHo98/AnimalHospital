@@ -106,6 +106,8 @@ extension UIImage {
 
 
 
+
+
 //상세기능 뷰 확장
 extension UIView {
     func specialView(imageName: String,text: String) -> UIView {

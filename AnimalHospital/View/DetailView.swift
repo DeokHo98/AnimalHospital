@@ -34,14 +34,17 @@ class DetailView: UIView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapImage))
         iv.isUserInteractionEnabled = true
         iv.addGestureRecognizer(tap)
-        let label = UILabel()
-        label.text = "사진 제공하기 (클릭!)"
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 20)
-        label.textColor = .systemBlue
-        iv.addSubview(label)
-        label.centerY(inView: iv)
-        label.centerX(inView: iv)
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "camera"), for: .normal)
+        button.setTitle(" 사진 제공하기", for: .normal)
+        button.backgroundColor = .clear
+        button.tintColor = .systemBlue
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 18)
+        button.addTarget(self, action: #selector(tapImage), for: .touchUpInside)
+        iv.addSubview(button)
+        button.centerY(inView: iv)
+        button.centerX(inView: iv)
         return iv
     }()
     
@@ -58,7 +61,7 @@ class DetailView: UIView {
     
     
     //테이블뷰
-    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private var tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     
     
     
@@ -90,6 +93,7 @@ class DetailView: UIView {
         self.addSubview(topView)
         topView.centerX(inView: self)
         topView.anchor(top: self.topAnchor, paddingTop: 10)
+        
         
         self.addSubview(tableView)
         tableView.backgroundColor = .white
@@ -129,7 +133,7 @@ class DetailView: UIView {
         topView.anchor(top: self.safeAreaLayoutGuide.topAnchor, paddingTop: 10)
         
         tableView.anchor(top: topView.bottomAnchor, leading: self.leadingAnchor, trailing: self.trailingAnchor,paddingTop: 20)
-        tableView.contentOffset = CGPoint(x: 0, y: 0 - tableView.contentInset.top)
+        tableView.contentOffset = CGPoint(x: 0, y: 0 - (tableView.contentInset.top))
         tableView.isScrollEnabled = false
         
     }
@@ -196,7 +200,7 @@ extension DetailView: UITableViewDelegate {
 extension DetailView: UIScrollViewDelegate {
     //테이블뷰의 contentoffset.y 가 0보다 작은경우라면 뷰를 내린다
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if tableView.contentOffset.y < 0 {
+        if (tableView.contentOffset.y) < 0 {
             delegate?.scrollDown()
         }
     }

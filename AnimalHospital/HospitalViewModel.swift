@@ -10,6 +10,8 @@ import NMapsMap
 
 
 final class HospitalViewModel {
+    
+
     var models: [HospitalModel] = []
     
     var lodingEnd: () -> Void = {}
