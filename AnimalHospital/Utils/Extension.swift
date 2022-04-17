@@ -86,5 +86,50 @@ func anchor(top: NSLayoutYAxisAnchor? = nil,leading: NSLayoutXAxisAnchor? = nil,
         layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         layer.masksToBounds = false
     }
+    
+    
+    
 }
 
+
+
+//레이블을 이미지로 변환시키는 메서드 (마커같은경우는 이미지밖에 못담기때문임)
+extension UIImage {
+    class func imageWithLabel(label: UILabel) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(label.bounds.size, false, 0.0)
+        label.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
+    }
+}
+
+
+
+//상세기능 뷰 확장
+extension UIView {
+    func specialView(imageName: String,text: String) -> UIView {
+        let view = UIView()
+        view.setWidth(40)
+        view.setHeight(40)
+        view.layer.cornerRadius = 40 / 2
+        view.backgroundColor = .white
+        view.layer.borderColor = UIColor.systemBlue.cgColor
+        view.layer.borderWidth = 1.2
+        let image = UIImageView(image: UIImage(systemName: imageName))
+        image.tintColor = .systemBlue
+        image.setWidth(25)
+        image.setHeight(25)
+        view.addSubview(image)
+        image.centerX(inView: view)
+        image.centerY(inView: view)
+        let label = UILabel()
+        label.text = text
+        label.textColor = .systemBlue
+        label.font = .systemFont(ofSize: 18)
+        view.addSubview(label)
+        label.anchor(top: view.bottomAnchor, paddingTop: 10)
+        label.centerX(inView: view)
+       return view
+    }
+}

@@ -10,6 +10,7 @@ import NMapsMap
 
 final class SearchViewModel {
     
+    
     var models : [SearchModel] = []
     
     var loddingStart: () -> Void = {}
@@ -43,11 +44,9 @@ final class SearchViewModel {
     
     
     
-    
-    
     func fetch(searhText: String) {
         loddingStart()
-         SearchApi.fetchSearchAPI(queryValue: searhText) { [weak self] result in
+        SearchService.fetchSearchService(queryValue: searhText) { [weak self] result in
              switch result {
              case .success(let models):
                  self?.models = models

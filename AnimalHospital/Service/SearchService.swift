@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct SearchApi {
+struct SearchService {
     
-    static func fetchSearchAPI(queryValue: String, compltion: @escaping (Result<[SearchModel], Error>) -> Void) {
+    //네이버 지역 검색 api의 값을 json으로 받아오는 메서드입니다.
+    static func fetchSearchService(queryValue: String, compltion: @escaping (Result<[SearchModel], Error>) -> Void) {
         let clientID = "AZNe9xs00tGIlUvyHPXj"
         let secretID = "XbdL_MZyWc"
         

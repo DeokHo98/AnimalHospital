@@ -19,9 +19,11 @@ class HomeController: UIViewController {
 
 
     //MARK: - 속성
-
-    //뷰모델
-    var viewModel = SearchViewModel()
+    //병원 뷰모델
+    var hospitalViewModel = HospitalViewModel()
+    
+    //서치 뷰모델
+    var searchViewModel: SearchViewModel!
 
     //네이버맵
    private let naverMapView = NMFMapView()
@@ -61,7 +63,6 @@ class HomeController: UIViewController {
         tf.setHeight(50)
         tf.font = .boldSystemFont(ofSize: 18)
         tf.attributedPlaceholder = NSAttributedString(string: "지명으로 검색하기..", attributes: [.foregroundColor : UIColor(white: 1, alpha: 0.5), .font : UIFont.boldSystemFont(ofSize: 18)])
-
         return tf
     }()
 
@@ -84,6 +85,7 @@ class HomeController: UIViewController {
         button.setTitle(" 즐겨찾기", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
+        button.addTarget(self, action: #selector(favoritButtonTap), for: .touchUpInside)
         return button
     }()
 
@@ -106,6 +108,8 @@ class HomeController: UIViewController {
         tv.separatorStyle = .none
         return tv
     }()
+        
+    
 
 
     //검색할때 호출되는 인디게이터뷰
@@ -148,6 +152,48 @@ class HomeController: UIViewController {
         stack.spacing = 20
         return stack
     }()
+    
+    //로딩뷰
+    private let loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .blue
+        return view
+    }()
+    
+    //마커이미지
+    private let markerlabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 90, height: 45))
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 15
+        label.backgroundColor = .systemBlue
+        label.text = "동물병원"
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    
+    //MARK: - 디테일뷰 모달 관련 속성
+    
+    // 드래그 되는 뷰
+    private let containerView = DetailView()
+    
+    //모달의 디폴트 높이
+    private var defaultHeight: CGFloat = UIScreen.main.bounds.height / 2.5
+    
+    //모달이 꺼지는 높이
+    private let dismissibleHeight: CGFloat = UIScreen.main.bounds.height / 2.8
+    
+    //모달이 올라가는 최대 위치
+    private let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height
+    
+    //모달이 움직일때 순간 높이 디폴트 높이랑 같게 해야함
+    private var currentContainerHeight: CGFloat = UIScreen.main.bounds.height / 2.5
+    
+    //동적 높이
+    private var containerViewHeightConstraint: NSLayoutConstraint?
+    private var containerViewBottomConstraint: NSLayoutConstraint?
 
 
     //MARK: - 라이프사이클
@@ -155,8 +201,13 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         UIconfigure()
+//        searhViewModelClosure()
+        hospitalViewModelClosure()
         mapConfigure()
         tableViewConfiure()
+        modalConfigure()
+        containerViewconfigure()
+        setupPanGesture()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -172,7 +223,7 @@ class HomeController: UIViewController {
 
     //MARK: - 셀렉터메서드
     //location버튼을 클릭하면 권한상태에 따라 현재 위치로 이동하는 메서드
-    @objc func locationButtonTap() {
+    @objc private func locationButtonTap() {
         switch locationManger.authorizationStatus {
         case .denied:
             diniedAlert()
@@ -195,12 +246,12 @@ class HomeController: UIViewController {
 
 
     //돋보기 버튼을 눌렀을때
-    @objc func searchButtonTap() {
+    @objc private func searchButtonTap() {
         switch buttonType {
         case .search:
             textfield.becomeFirstResponder()
         case .back:
-            viewModel.models = []
+            searchViewModel.models = []
             tableView.reloadData()
             tableView.removeFromSuperview()
             keyboard = false
@@ -209,25 +260,91 @@ class HomeController: UIViewController {
             view.endEditing(true)
             textfield.text = ""
             textfield.attributedPlaceholder = NSAttributedString(string: "지명으로 검색하기..", attributes: [.foregroundColor : UIColor(white: 1, alpha: 0.5), .font : UIFont.boldSystemFont(ofSize: 18)])
+            searchViewModel = nil
         }
     }
 
-    @objc func zoomIn() {
+    //줌인 줌아웃 버튼 눌렀을때
+    @objc private func zoomIn() {
         let current = naverMapView.zoomLevel
         let camZoom = NMFCameraUpdate(zoomTo: current + 1)
         naverMapView.moveCamera(camZoom)
     }
 
-    @objc func zoomOut() {
+    @objc private func zoomOut() {
         let current = naverMapView.zoomLevel
         let camZoom = NMFCameraUpdate(zoomTo: current - 1)
         naverMapView.moveCamera(camZoom)
     }
-
+    
+    // 즐겨찾기 버튼 눌렀을때
+    @objc private func favoritButtonTap() {
+       
+    }
+    
+    //MARK: - 디테일뷰 모달관련 셀렉터 메서드
+    
+    //제스처를 맨위로 드래그하면 마이너스값이되고 그반대로하면 플러스값이됨
+    @objc private func handlePanGesture(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
+       
+        
+        //드래그 방향을 가져옵니다
+        let isDraggingDown = translation.y > 0
+        
+        //새로운 높이는 현재 높이 - 제스처한만큼의 높이
+        let newHeight = currentContainerHeight - translation.y
+        
+        //제스처 상태에 따라 처리합니다.
+        switch gesture.state {
+        case .changed:
+            //드래그할때 발생합니다
+            if newHeight < maximumContainerHeight {
+                //높이 제약조건을 업데이트
+                containerViewHeightConstraint?.constant = newHeight
+                
+                if isDraggingDown {
+                    //뷰가 아래로로 내려가는 순간 새로운레이아웃을 만듭니다.
+                    self.containerView.showDown()
+                }
+            }
+        case .ended:
+            //드래그를 멈추면 발생합니다
+            
+            //새로운 높이가 최소값 미만이면 뷰를 닫습니다.
+            if newHeight < dismissibleHeight {
+                self.animateDismissView()
+                
+            }
+            //새로운 높이가 기본값보다 낮으면 최소값 이상이면 기본값으로 돌립니다
+            else if newHeight < defaultHeight {
+                animateContainerHeight(defaultHeight)
+               
+                
+            }
+            //새로운 높이가 기본값보다 높고 최대값보다 낮은상태로 "내려간다면" 기본값으로 내립니다.
+            else if newHeight < maximumContainerHeight && isDraggingDown {
+                animateContainerHeight(defaultHeight)
+            }
+            //새로운 높이가 기본값보다 높고 최대값보다 낮은상태로 "올라간다면" 뷰를 최대치로 올립니다.
+            else if newHeight > defaultHeight && !isDraggingDown {
+                animateContainerHeight(maximumContainerHeight)
+                //뷰가 최대치로 올라간다면 일정 시간을 두고 새로운 레이아웃을 만듭니다.
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) { [weak self] in
+                    self?.containerView.showUp()
+                }
+            }
+        default:
+            break
+        }
+        
+        
+    }
+    
     //MARK: - 도움메서드
-
+    
     //UI구성 메서드
-    func UIconfigure() {
+    private func UIconfigure() {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
 
@@ -261,23 +378,15 @@ class HomeController: UIViewController {
         view.addSubview(buttonStack)
         buttonStack.centerY(inView: view)
         buttonStack.anchor(trailing: view.trailingAnchor, paddingTrailing: 20)
+    
+        loadingView.frame = view.frame
+        view.addSubview(loadingView)
 
-        viewModel.loddingStart = { [weak self] in
-            self?.activityON()
-        }
-
-        viewModel.lodingEnd = { [weak self] in
-            self?.activityOFF()
-        }
-
-        viewModel.alert = { [weak self] in
-            self?.errorAlter()
-        }
-
+    
     }
 
     //테이블뷰 구성 메서드
-    func tableViewConfiure() {
+    private func tableViewConfiure() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
@@ -285,21 +394,21 @@ class HomeController: UIViewController {
     }
 
     //테이블뷰 보여주는 메서드
-    func tableViewShow() {
+    private func tableViewShow() {
         view.addSubview(tableView)
         tableView.anchor(top: topView.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor ,trailing: view.trailingAnchor)
     }
 
 
     // 로케이션 매니저 구성 메서드
-    func mapConfigure() {
+    private func mapConfigure() {
         locationManger.delegate = self
         locationManger.requestWhenInUseAuthorization()
 
     }
 
     //현재 권항 상태를 확인하는 메서드
-    func locationMangerConfirm() {
+    private func locationMangerConfirm() {
         switch locationManger.authorizationStatus {
         case .denied:
             break
@@ -319,7 +428,7 @@ class HomeController: UIViewController {
     }
 
     //현재 위치 권한이 없는 상태일때 얼럿을 띄어 위치권한 설정화면으로 넘어가는 얼럿 메서드
-    func diniedAlert() {
+    private func diniedAlert() {
         let alert = UIAlertController(title: "위치권한 설정을 다시 설정해주세요", message: "설정 > 24시 동물병원 에서 위치서비스를 허용하시면 현재위치 기준의 정보를 보실수 있습니다", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "네", style: .default) { action in
             UIApplication.shared.open(NSURL(string:UIApplication.openSettingsURLString)! as URL)
@@ -331,10 +440,40 @@ class HomeController: UIViewController {
         alert.addAction(noAction)
         present(alert, animated: true, completion: nil)
     }
+    
+    //서치뷰모델의 클로저
+    private func searhViewModelClosure() {
+        searchViewModel.loddingStart = { [weak self] in
+            self?.activityON()
+        }
+
+        searchViewModel.lodingEnd = { [weak self] in
+            self?.activityOFF()
+        }
+
+        searchViewModel.alert = { [weak self] in
+            self?.errorAlter()
+        }
+    }
+    
+    //병원뷰모델의 클로저
+    private func hospitalViewModelClosure() {
+
+        hospitalViewModel.lodingEnd = { [weak self] in
+            self?.lodingViewOFF()
+            print("병원 데이터 받기 끝")
+        }
+
+        hospitalViewModel.alert = { [weak self] in
+            self?.errorAlter()
+        }
+        
+        hospitalViewModel.fetch()
+    }
 
 
     //액티비티 뷰 메서드
-    func activityON() {
+   private func activityON() {
         view.addSubview(activity)
         activity.tintColor = .gray
         activity.centerX(inView: view)
@@ -342,18 +481,17 @@ class HomeController: UIViewController {
         activity.startAnimating()
     }
 
-    func activityOFF() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.activity.stopAnimating()
-            self.activity.removeFromSuperview()
+    private func activityOFF() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+            self?.activity.stopAnimating()
+            self?.activity.removeFromSuperview()
         }
     }
 
     //에러 얼럿 메서드
-
-    func errorAlter() {
-        let alert = UIAlertController(title: "에러가 발생했습니다", message: "네트워크를 확인하고 다시 시도해보십시오", preferredStyle: .alert)
+    private func errorAlter() {
+        let alert = UIAlertController(title: "에러가 발생했습니다", message: "인터넷 연결을 확인하고 다시 시도해보십시오", preferredStyle: .alert)
         let okButton = UIAlertAction(title: "확인", style: .default, handler: nil)
 
         alert.addAction(okButton)
@@ -361,10 +499,102 @@ class HomeController: UIViewController {
     }
 
     //카메라 줌 메서드
-    func cameraZoom() {
+    private func cameraZoom() {
         let camZoom = NMFCameraUpdate(zoomTo: 14)
         naverMapView.moveCamera(camZoom)
     }
+    
+    //로딩뷰 메서드
+    private func lodingViewOFF() {
+        //네이버 공식문서에서 같은 이미지를 쓰는경우 오버레이 이미지를 하나만 생성해서 사용해야한다고 함
+        let image = NMFOverlayImage(image: UIImage.imageWithLabel(label: markerlabel))
+        loadingView.removeFromSuperview()
+        hospitalViewModel.models.forEach { [weak self] models in
+            let marker = NMFMarker()
+            marker.iconImage = image
+            //아래 코멘트: 코멘트해제시 마커가 겹칠경우 하나의 마커로 줄어듬
+            //marker.isHideCollidedMarkers = true
+            marker.position = NMGLatLng(lat: models.x, lng: models.y)
+            marker.width = 90
+            marker.height = 45
+            marker.mapView = self?.naverMapView
+            marker.touchHandler = { [weak self] (ovrlay: NMFOverlay) -> Bool in
+                self?.containerView.viewModel = DetailViewModel(model: models)
+                self?.animatePresentContainer()
+                return true
+            }
+        }
+    }
+    
+   
+    
+    
+    //MARK: - 디테일뷰 모달관련 도움 메서드
+    
+    private func modalConfigure() {
+        containerView.delegate = self
+        containerView.frame = view.frame
+    }
+    
+    private func containerViewconfigure() {
+        currentContainerHeight = view.frame.height / 2
+        view.addSubview(containerView)
+        containerView.anchor(leading: view.leadingAnchor, trailing: view.trailingAnchor)
+        containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: defaultHeight)
+        containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: defaultHeight)
+        containerViewHeightConstraint?.isActive = true
+        containerViewBottomConstraint?.isActive = true
+        
+        containerView.addShadow()
+        currentContainerHeight = defaultHeight
+
+        
+    }
+    
+    //MARK: - 디테일뷰 제스처 도움메서드
+    
+    private func setupPanGesture() {
+        //뷰 전체에 제스처를 추가
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(gesture:)))
+        panGesture.delaysTouchesBegan = false
+        panGesture.delaysTouchesEnded = false
+        containerView.addGestureRecognizer(panGesture)
+    }
+    
+    
+    private func animateContainerHeight(_ height: CGFloat) {
+        UIView.animate(withDuration: 0.4) {
+            //현재 컨테이너 높이를 업데이트합니다
+            self.containerViewHeightConstraint?.constant = height
+            //레이아웃 새로고침
+            self.view.layoutIfNeeded()
+        }
+        
+        //현재높이를 저장
+        currentContainerHeight = height
+    }
+    
+    private func animatePresentContainer() {
+        UIView.animate(withDuration: 0.4) {
+            self.containerViewBottomConstraint?.constant = 0
+            self.view.layoutIfNeeded()
+            self.containerViewHeightConstraint?.constant = self.defaultHeight
+        }
+    }
+    
+    
+    
+    //뷰를 닫습니다
+   private func animateDismissView() {
+       UIView.animate(withDuration: 0.4) { [self] in
+            self.containerViewBottomConstraint?.constant = self.defaultHeight
+            self.view.layoutIfNeeded()
+           self.containerView.viewModel = nil
+        }
+    }
+    
+
+    
 }
 
 //MARK: - CLLocation 델리게이트
@@ -380,6 +610,8 @@ extension HomeController: CLLocationManagerDelegate {
 extension HomeController: UITextFieldDelegate {
     //텍스트필드가 켜지기 직전
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        searchViewModel = SearchViewModel()
+        searhViewModelClosure()
         tableViewShow()
         keyboard = true
         buttonType = .back
@@ -390,7 +622,7 @@ extension HomeController: UITextFieldDelegate {
     //텍스트필드에서 서치버튼을 눌렀을때
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textfield.text else {return true}
-        viewModel.fetch(searhText: text)
+        searchViewModel.fetch(searhText: text)
        return true
     }
 
@@ -401,14 +633,15 @@ extension HomeController: UITextFieldDelegate {
 extension HomeController: UITableViewDataSource {
     //테이블뷰의 셀의 갯수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.count()
+        return searchViewModel.count()
     }
 
     //테이블뷰의 셀
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier, for: indexPath) as! SearchCell
-        cell.namelabel.text = viewModel.name(index: indexPath.row)
-        cell.adressLabel.text = viewModel.address(index: indexPath.row)
+        
+        cell.namelabel.text = searchViewModel.name(index: indexPath.row)
+        cell.adressLabel.text = searchViewModel.address(index: indexPath.row)
         return cell
     }
 
@@ -426,14 +659,15 @@ extension HomeController: UITableViewDataSource {
 extension HomeController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         marker.mapView = nil
-        marker.position = viewModel.lating(index: indexPath.row)
+        marker.position = searchViewModel.lating(index: indexPath.row)
         marker.iconImage = NMF_MARKER_IMAGE_BLACK
-        marker.iconTintColor = .systemBlue
+        marker.iconTintColor = .systemRed
         marker.mapView = naverMapView
-        let camUpdate = NMFCameraUpdate(scrollTo: viewModel.lating(index: indexPath.row))
+        let camUpdate = NMFCameraUpdate(scrollTo: searchViewModel.lating(index: indexPath.row))
         naverMapView.moveCamera(camUpdate)
         cameraZoom()
         searchButtonTap()
+        searchViewModel = nil
     }
 }
 
@@ -450,3 +684,12 @@ extension HomeController: UIScrollViewDelegate {
     }
 }
 
+
+
+//MARK: - 디테일뷰 델리게이트
+extension HomeController: DetailViewDelegate {
+    func scrollDown() {
+        animateContainerHeight(defaultHeight)
+        containerView.showDown()
+    }
+}
