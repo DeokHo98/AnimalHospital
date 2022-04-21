@@ -25,7 +25,8 @@ class FavoriteController: UITableViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "뒤로가기"
-        navigationController?.navigationBar.tintColor = .black
+        
+        navigationController?.navigationBar.barTintColor = .white
         navigationItem.title = "즐겨찾기"
         
         viewModel.fetch()

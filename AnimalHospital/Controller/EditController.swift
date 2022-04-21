@@ -80,7 +80,7 @@ class EditController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "뒤로가기"
-        navigationController?.navigationBar.tintColor = .black
+        
         
         
         navigationItem.rightBarButtonItem = rightButton
@@ -119,10 +119,12 @@ class EditController: UIViewController {
             if text != "" {
                 fetchAlert(text: text)
             } else {
-                showAlert(title: "수정내용을 입력해주세요")
+                showAlert(title: "수정내용을 입력해주세요") { _ in
+                }
             }
         } else {
-            showAlert(title: "수정내용을 입력해주세요")
+            showAlert(title: "수정내용을 입력해주세요") { _ in
+            }
         }
     }
     
@@ -137,9 +139,9 @@ class EditController: UIViewController {
     
     
     //MARK: - 도움메서드
-    private func showAlert(title: String) {
+    private func showAlert(title: String,compltion: @escaping (UIAlertAction) -> Void) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "네", style: .default, handler: nil)
+        let okButton = UIAlertAction(title: "확인", style: .default, handler: compltion)
         alert.addAction(okButton)
         present(alert, animated: true, completion: nil)
     }
@@ -151,12 +153,14 @@ class EditController: UIViewController {
             EditService.uploadEditData(type: segmentedValue, name: self.name!, text: text) { [weak self] error in
                 if error != nil {
                     self?.activity.stopAnimating()
-                    self?.showAlert(title: "실패했습니다 다시한번 시도해보세요")
+                    self?.showAlert(title: "실패했습니다 다시한번 시도해보세요",compltion: { _ in
+                    })
                     return
                 } else {
                     self?.activity.stopAnimating()
-                    self?.navigationController?.popViewController(animated: true)
-                    self?.showAlert(title: "정보를 제공해주셔서 감사합니다")
+                    self?.showAlert(title: "정보를 제공해주셔서 감사합니다",compltion: { [weak self] _ in
+                        self?.navigationController?.popViewController(animated: true)
+                    })
                 }
             }
         }

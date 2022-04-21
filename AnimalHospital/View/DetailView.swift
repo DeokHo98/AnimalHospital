@@ -8,13 +8,12 @@
 import UIKit
 import MapKit
 import TMapSDK
+
 //스크롤을 아래로 내린뒤의 시점을 델리게이트패턴으로 전송
 protocol DetailViewDelegate: AnyObject {
     func scrollDown()
     
     func showEditView(name: String)
-    
- 
     
 }
 
@@ -122,7 +121,7 @@ class DetailView: UIView {
     //MARK: - 도움메서드
     func showUp() {
         self.addSubview(imageView)
-        imageView.anchor(top: self.safeAreaLayoutGuide.topAnchor, leading: self.leadingAnchor, trailing: self.trailingAnchor, height: (self.frame.height) / 4)
+        imageView.anchor(top: self.safeAreaLayoutGuide.topAnchor, leading: self.leadingAnchor, trailing: self.trailingAnchor, height: (self.frame.height) / 3)
         
         topView.removeFromSuperview()
         
@@ -143,7 +142,7 @@ class DetailView: UIView {
         
     }
     
-    private func fetch(image: UIImageView) {
+    private func fetchFavorite(image: UIImageView) {
          guard let viewModel = viewModel else {return}
         favoriteviewModel.fetch()
         for model in favoriteviewModel.coreDataModels {
@@ -235,7 +234,7 @@ extension DetailView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailHeader.identifier) as! DetailHeader
         guard let viewModel = viewModel else {return header}
-        fetch(image: header.image)
+        fetchFavorite(image: header.image)
         header.nameLabel.text = viewModel.name
         header.delegate = self
         return header

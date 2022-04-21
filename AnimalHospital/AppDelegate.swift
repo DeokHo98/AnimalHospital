@@ -12,7 +12,7 @@ import CoreData
 import TMapSDK
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, TMapTapiDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,TMapTapiDelegate {
 
 
 

@@ -111,7 +111,7 @@ class HomeController: UIViewController {
         let label = UILabel()
         label.text = "데이터를 받는중입니다..."
         label.textColor = .white
-        label.font = .boldSystemFont(ofSize: 22)
+        label.font = .boldSystemFont(ofSize: 18)
         view.addSubview(label)
         label.anchor(top: image.bottomAnchor,paddingTop: -40)
         label.centerX(inView: view)
@@ -170,6 +170,8 @@ class HomeController: UIViewController {
         super.viewWillAppear(true)
         navigationController?.navigationBar.isHidden = true
     }
+   
+    
     
     
     //MARK: - 셀렉터메서드
@@ -385,7 +387,7 @@ class HomeController: UIViewController {
     }
     
     private func selectCameraZoom() {
-        let camZoom = NMFCameraUpdate(zoomTo: 14)
+        let camZoom = NMFCameraUpdate(zoomTo: 13)
         naverMapView.moveCamera(camZoom)
         
     }
@@ -405,6 +407,7 @@ class HomeController: UIViewController {
                 marker.width = 40
                 marker.height = 60
                 marker.touchHandler = { [weak self] (ovrlay: NMFOverlay) -> Bool in
+                    self?.marker.mapView = nil
                     self?.containerView.viewModel = DetailViewModel(model: models)
                     self?.animatePresentContainer()
                     self?.selectCameraZoom()

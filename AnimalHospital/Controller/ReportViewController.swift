@@ -9,10 +9,6 @@ import UIKit
 
 class ReportViewController: UIViewController {
     
-    deinit {
-        print("메모리해제")
-    }
-    
     private let label: UILabel = UILabel().reportLabel(text: "이 앱에 등록되어 있지 않은 24시 동물병원의 정보를 모두에게 알려주세요!", font: .systemFont(ofSize: 18))
     
     private let nameTextField = UITextField().reportTextField(title: "  예) 한별이네 24시동물병원")
@@ -40,15 +36,16 @@ class ReportViewController: UIViewController {
     
     @objc private func tapButton() {
         if nameTextField.text == "" || addressTextField.text == "" {
-            showAlert(title: "모두 입력해주시길 바랍니다")
+            showAlert(title: "모두 입력해주시길 바랍니다") { _ in
+            }
         } else {
             fetchAlert()
         }
     }
     
-    private func showAlert(title: String) {
+    private func showAlert(title: String, compltion: @escaping (UIAlertAction) -> Void) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "확인", style: .default, handler: nil)
+        let okButton = UIAlertAction(title: "확인", style: .default, handler: compltion)
         alert.addAction(okButton)
         present(alert, animated: true, completion: nil)
     }
@@ -60,12 +57,14 @@ class ReportViewController: UIViewController {
             EditService.report(name: nameTextField.text!, address: addressTextField.text!) { [weak self] error in
                 if error != nil {
                     activity.stopAnimating()
-                    self?.showAlert(title: "실패했습니다 다시한번 시도해보세요")
+                    self?.showAlert(title: "실패했습니다 다시한번 시도해보세요",compltion: { _ in
+                    })
                     return
                 } else {
                     activity.stopAnimating()
-                    self?.navigationController?.popViewController(animated: true)
-                    self?.showAlert(title: "정보를 제공해주셔서 감사합니다")
+                    self?.showAlert(title: "정보를 제공해주셔서 감사합니다",compltion: { [weak self] _ in
+                        self?.navigationController?.popViewController(animated: true)
+                    })
                 }
             }
         }
@@ -82,7 +81,7 @@ class ReportViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.topItem?.title = "뒤로가기"
-        navigationController?.navigationBar.tintColor = .black
+        
         
         view.addSubview(label)
         label.anchor(top: view.safeAreaLayoutGuide.topAnchor,leading: view.leadingAnchor,trailing: view.trailingAnchor,paddingTop: 20, paddingLeading: 20,paddingTrailing: 20)
