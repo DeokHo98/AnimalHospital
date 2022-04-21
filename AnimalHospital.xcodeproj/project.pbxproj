@@ -8,20 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		E091E62919670CD428E50CDB /* Pods_AnimalHospital.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0CE50DF15741B0DE18F662 /* Pods_AnimalHospital.framework */; };
+		FE13F8AB280E88B900EFCD91 /* FavoriteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE13F8AA280E88B900EFCD91 /* FavoriteController.swift */; };
+		FE13F8AD280E88D900EFCD91 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE13F8AC280E88D900EFCD91 /* FavoriteCell.swift */; };
+		FE13F8B0280E90B100EFCD91 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FE13F8AE280E90B100EFCD91 /* CoreDataModel.xcdatamodeld */; };
+		FE13F8B2280E9FE600EFCD91 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE13F8B1280E9FE600EFCD91 /* CoreDataService.swift */; };
+		FE13F8B6280EA19C00EFCD91 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE13F8B5280EA19C00EFCD91 /* FavoriteViewModel.swift */; };
 		FE3775472807F3D000B76C9A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE3775462807F3D000B76C9A /* GoogleService-Info.plist */; };
 		FE3775492807F81900B76C9A /* HospitalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3775482807F81900B76C9A /* HospitalService.swift */; };
 		FE37754B2807FDA700B76C9A /* HospitalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE37754A2807FDA700B76C9A /* HospitalModel.swift */; };
 		FE37754D2808013700B76C9A /* HospitalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE37754C2808013700B76C9A /* HospitalViewModel.swift */; };
 		FE54A8A4280AF47A00B45BEF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE54A8A3280AF47A00B45BEF /* DetailView.swift */; };
 		FE54A8A6280AFDB600B45BEF /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE54A8A5280AFDB600B45BEF /* DetailViewModel.swift */; };
+		FE655CE7280BF841008A1857 /* EditService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE655CE6280BF841008A1857 /* EditService.swift */; };
+		FE655CE9280BF900008A1857 /* EditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE655CE8280BF900008A1857 /* EditController.swift */; };
 		FE6776DD2807E62200BE5741 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6776DC2807E62200BE5741 /* AppDelegate.swift */; };
 		FE6776DF2807E62200BE5741 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6776DE2807E62200BE5741 /* SceneDelegate.swift */; };
 		FE6776E62807E62400BE5741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE6776E52807E62400BE5741 /* Assets.xcassets */; };
 		FE6776E92807E62400BE5741 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE6776E72807E62400BE5741 /* LaunchScreen.storyboard */; };
+		FEC5590D281067AD006F63FA /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE13F8B7280F1A4C00EFCD91 /* TMapSDK.framework */; platformFilter = ios; };
+		FEC5590E281067AD006F63FA /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE13F8B7280F1A4C00EFCD91 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FEC5591128108028006F63FA /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC5591028108028006F63FA /* ImageLoader.swift */; };
+		FEC5591528108449006F63FA /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC5591428108449006F63FA /* ReportViewController.swift */; };
 		FED007A8280932D900797E4F /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED007A7280932D900797E4F /* DetailCell.swift */; };
 		FED0BDBD280A9C77004195DC /* DetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0BDBC280A9C77004195DC /* DetailHeader.swift */; };
 		FED0BDC2280AA6DC004195DC /* DetailFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0BDC1280AA6DC004195DC /* DetailFooter.swift */; };
-		FEE11C01280BD8C800C5CA53 /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE11C00280BD8C800C5CA53 /* HeaderViewModel.swift */; };
 		FEE11C03280BDE9B00C5CA53 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE11C02280BDE9B00C5CA53 /* SearchViewController.swift */; };
 		FEFB6EDB2807F05500B76CC3 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDA2807F05500B76CC3 /* HomeController.swift */; };
 		FEFB6EDD2807F06100B76CC3 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */; };
@@ -31,26 +41,49 @@
 		FEFB6EE62807F0A200B76CC3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFB6EE52807F0A200B76CC3 /* Extension.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		FEC5590F281067AD006F63FA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FEC5590E281067AD006F63FA /* TMapSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0E0CE50DF15741B0DE18F662 /* Pods_AnimalHospital.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnimalHospital.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		753ADA84033BD1F23F6E48EC /* Pods-AnimalHospital.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalHospital.debug.xcconfig"; path = "Target Support Files/Pods-AnimalHospital/Pods-AnimalHospital.debug.xcconfig"; sourceTree = "<group>"; };
 		F4F696B31955A7055A50450D /* Pods-AnimalHospital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalHospital.release.xcconfig"; path = "Target Support Files/Pods-AnimalHospital/Pods-AnimalHospital.release.xcconfig"; sourceTree = "<group>"; };
+		FE13F8AA280E88B900EFCD91 /* FavoriteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteController.swift; sourceTree = "<group>"; };
+		FE13F8AC280E88D900EFCD91 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		FE13F8AF280E90B100EFCD91 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		FE13F8B1280E9FE600EFCD91 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		FE13F8B5280EA19C00EFCD91 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
+		FE13F8B7280F1A4C00EFCD91 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
 		FE3775462807F3D000B76C9A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FE3775482807F81900B76C9A /* HospitalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalService.swift; sourceTree = "<group>"; };
 		FE37754A2807FDA700B76C9A /* HospitalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalModel.swift; sourceTree = "<group>"; };
 		FE37754C2808013700B76C9A /* HospitalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalViewModel.swift; sourceTree = "<group>"; };
 		FE54A8A3280AF47A00B45BEF /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		FE54A8A5280AFDB600B45BEF /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		FE655CE6280BF841008A1857 /* EditService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditService.swift; sourceTree = "<group>"; };
+		FE655CE8280BF900008A1857 /* EditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditController.swift; sourceTree = "<group>"; };
 		FE6776D92807E62200BE5741 /* AnimalHospital.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalHospital.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE6776DC2807E62200BE5741 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FE6776DE2807E62200BE5741 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FE6776E52807E62400BE5741 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE6776E82807E62400BE5741 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FE6776EA2807E62400BE5741 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEC5591028108028006F63FA /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		FEC5591428108449006F63FA /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		FED007A7280932D900797E4F /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		FED0BDBC280A9C77004195DC /* DetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeader.swift; sourceTree = "<group>"; };
 		FED0BDC1280AA6DC004195DC /* DetailFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFooter.swift; sourceTree = "<group>"; };
-		FEE11C00280BD8C800C5CA53 /* HeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewModel.swift; sourceTree = "<group>"; };
 		FEE11C02280BDE9B00C5CA53 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FEFB6EDA2807F05500B76CC3 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -66,6 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E091E62919670CD428E50CDB /* Pods_AnimalHospital.framework in Frameworks */,
+				FEC5590D281067AD006F63FA /* TMapSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +118,7 @@
 		C12030658C75B2472B31E6BD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE13F8B7280F1A4C00EFCD91 /* TMapSDK.framework */,
 				0E0CE50DF15741B0DE18F662 /* Pods_AnimalHospital.framework */,
 			);
 			name = Frameworks;
@@ -120,6 +155,7 @@
 				FE6776DE2807E62200BE5741 /* SceneDelegate.swift */,
 				FE6776E52807E62400BE5741 /* Assets.xcassets */,
 				FE6776E72807E62400BE5741 /* LaunchScreen.storyboard */,
+				FE13F8AE280E90B100EFCD91 /* CoreDataModel.xcdatamodeld */,
 				FE6776EA2807E62400BE5741 /* Info.plist */,
 				FE3775462807F3D000B76C9A /* GoogleService-Info.plist */,
 			);
@@ -139,8 +175,9 @@
 			children = (
 				FEFB6EE02807F07C00B76CC3 /* SearchCell.swift */,
 				FED007A7280932D900797E4F /* DetailCell.swift */,
-				FED0BDBC280A9C77004195DC /* DetailHeader.swift */,
+				FE13F8AC280E88D900EFCD91 /* FavoriteCell.swift */,
 				FED0BDC1280AA6DC004195DC /* DetailFooter.swift */,
+				FED0BDBC280A9C77004195DC /* DetailHeader.swift */,
 				FE54A8A3280AF47A00B45BEF /* DetailView.swift */,
 			);
 			path = View;
@@ -161,7 +198,7 @@
 				FEFB6EDC2807F06000B76CC3 /* SearchViewModel.swift */,
 				FE37754C2808013700B76C9A /* HospitalViewModel.swift */,
 				FE54A8A5280AFDB600B45BEF /* DetailViewModel.swift */,
-				FEE11C00280BD8C800C5CA53 /* HeaderViewModel.swift */,
+				FE13F8B5280EA19C00EFCD91 /* FavoriteViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -171,6 +208,9 @@
 			children = (
 				FEFB6EDA2807F05500B76CC3 /* HomeController.swift */,
 				FEE11C02280BDE9B00C5CA53 /* SearchViewController.swift */,
+				FE655CE8280BF900008A1857 /* EditController.swift */,
+				FEC5591428108449006F63FA /* ReportViewController.swift */,
+				FE13F8AA280E88B900EFCD91 /* FavoriteController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -180,6 +220,9 @@
 			children = (
 				FEFB6EE32807F09700B76CC3 /* SearchService.swift */,
 				FE3775482807F81900B76C9A /* HospitalService.swift */,
+				FE655CE6280BF841008A1857 /* EditService.swift */,
+				FE13F8B1280E9FE600EFCD91 /* CoreDataService.swift */,
+				FEC5591028108028006F63FA /* ImageLoader.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -196,6 +239,7 @@
 				FE6776D62807E62200BE5741 /* Frameworks */,
 				FE6776D72807E62200BE5741 /* Resources */,
 				749CDC1E6B3286C748A1DD83 /* [CP] Embed Pods Frameworks */,
+				FEC5590F281067AD006F63FA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -303,19 +347,27 @@
 				FE3775492807F81900B76C9A /* HospitalService.swift in Sources */,
 				FED007A8280932D900797E4F /* DetailCell.swift in Sources */,
 				FED0BDC2280AA6DC004195DC /* DetailFooter.swift in Sources */,
+				FE13F8B2280E9FE600EFCD91 /* CoreDataService.swift in Sources */,
 				FEFB6EDB2807F05500B76CC3 /* HomeController.swift in Sources */,
+				FE13F8AD280E88D900EFCD91 /* FavoriteCell.swift in Sources */,
+				FE655CE9280BF900008A1857 /* EditController.swift in Sources */,
 				FEFB6EDD2807F06100B76CC3 /* SearchViewModel.swift in Sources */,
 				FEFB6EE42807F09700B76CC3 /* SearchService.swift in Sources */,
 				FE37754D2808013700B76C9A /* HospitalViewModel.swift in Sources */,
 				FE54A8A4280AF47A00B45BEF /* DetailView.swift in Sources */,
+				FE13F8B6280EA19C00EFCD91 /* FavoriteViewModel.swift in Sources */,
 				FEFB6EE12807F07C00B76CC3 /* SearchCell.swift in Sources */,
+				FEC5591528108449006F63FA /* ReportViewController.swift in Sources */,
+				FE655CE7280BF841008A1857 /* EditService.swift in Sources */,
 				FEFB6EDF2807F06A00B76CC3 /* SearchModel.swift in Sources */,
+				FE13F8AB280E88B900EFCD91 /* FavoriteController.swift in Sources */,
+				FEC5591128108028006F63FA /* ImageLoader.swift in Sources */,
 				FED0BDBD280A9C77004195DC /* DetailHeader.swift in Sources */,
 				FEE11C03280BDE9B00C5CA53 /* SearchViewController.swift in Sources */,
+				FE13F8B0280E90B100EFCD91 /* CoreDataModel.xcdatamodeld in Sources */,
 				FE37754B2807FDA700B76C9A /* HospitalModel.swift in Sources */,
 				FE6776DD2807E62200BE5741 /* AppDelegate.swift in Sources */,
 				FE6776DF2807E62200BE5741 /* SceneDelegate.swift in Sources */,
-				FEE11C01280BD8C800C5CA53 /* HeaderViewModel.swift in Sources */,
 				FE54A8A6280AFDB600B45BEF /* DetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,8 +515,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L3L2WN7T88;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimalHospital/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "24시 동물병원";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -481,6 +538,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
 		};
@@ -493,8 +551,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L3L2WN7T88;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimalHospital/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "24시 동물병원";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -511,6 +574,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;
 		};
@@ -536,6 +600,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FE13F8AE280E90B100EFCD91 /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FE13F8AF280E90B100EFCD91 /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = FE13F8AF280E90B100EFCD91 /* CoreDataModel.xcdatamodel */;
+			path = CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FE6776D12807E62200BE5741 /* Project object */;
 }

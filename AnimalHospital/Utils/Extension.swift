@@ -93,16 +93,7 @@ func anchor(top: NSLayoutYAxisAnchor? = nil,leading: NSLayoutXAxisAnchor? = nil,
 
 
 
-//레이블을 이미지로 변환시키는 메서드 (마커같은경우는 이미지밖에 못담기때문임)
-extension UIImage {
-    class func imageWithLabel(label: UILabel) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(label.bounds.size, false, 0.0)
-        label.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let img = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return img!
-    }
-}
+
 
 
 
@@ -114,12 +105,10 @@ extension UIView {
         let view = UIView()
         view.setWidth(40)
         view.setHeight(40)
-        view.layer.cornerRadius = 40 / 2
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor.systemBlue.cgColor
-        view.layer.borderWidth = 1.2
+        view.layer.cornerRadius = 5
+        view.backgroundColor = .systemBlue
         let image = UIImageView(image: UIImage(systemName: imageName))
-        image.tintColor = .systemBlue
+        image.tintColor = .white
         image.setWidth(25)
         image.setHeight(25)
         view.addSubview(image)
@@ -133,5 +122,83 @@ extension UIView {
         label.anchor(top: view.bottomAnchor, paddingTop: 10)
         label.centerX(inView: view)
        return view
+    }
+}
+
+extension UIColor {
+    static let customGrayColor = UIColor(displayP3Red: 229/255, green: 229/255, blue: 233/255, alpha: 1)
+}
+
+
+
+extension UIButton {
+    func imageButton(image: String, color: UIColor) -> UIButton {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .white
+        button.clipsToBounds = true
+        button.setImage(UIImage(systemName: image), for: .normal)
+        button.tintColor = color
+        button.addShadow()
+        button.setHeight(50)
+        button.setWidth(50)
+        button.layer.cornerRadius = 50 / 2
+        return button
+    }
+}
+
+extension NSAttributedString {
+    func detailString(text: String) -> NSMutableAttributedString {
+        let str = NSMutableAttributedString(string: text)
+        str.addAttribute(.foregroundColor, value: UIColor.lightGray, range: (text as NSString).range(of: "복사"))
+        str.addAttribute(.font, value: UIFont.systemFont(ofSize: 15), range: (text as NSString).range(of: "복사"))
+        return str
+    }
+}
+
+
+extension UILabel {
+    func toastLabel(text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = .systemFont(ofSize: 18)
+        label.backgroundColor = .darkGray
+        label.alpha = 0.9
+        label.textColor = .white
+        label.clipsToBounds = true
+        label.setHeight(35)
+        label.layer.cornerRadius = 35 / 2
+        label.textAlignment = .center
+        return label
+    }
+    
+    func nillLabel(text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.textColor = .darkGray
+        label.font = .systemFont(ofSize: 20)
+        return label
+    }
+    
+    func reportLabel(text: String, font: UIFont) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.numberOfLines = 0
+        label.font = font
+        label.textColor = .darkGray
+        return label
+    }
+}
+
+
+//제보하기 뷰의 아이템입니다
+extension UITextField {
+    func reportTextField(title: String) -> UITextField {
+        let tf = UITextField()
+        tf.borderStyle = .none
+        tf.backgroundColor = UIColor.customGrayColor
+        tf.textColor = .black
+        tf.setHeight(40)
+        tf.attributedPlaceholder = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor : UIColor.darkGray])
+        return tf
     }
 }

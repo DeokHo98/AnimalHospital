@@ -16,9 +16,6 @@ final class HospitalViewModel {
     
     var lodingEnd: () -> Void = {}
     
-    var alert: () -> Void = {}
-    
-    var latings: [NMGLatLng] = []
     
     func fetch() {
         HospitalService.fetchHospital { [weak self] result in
@@ -28,7 +25,6 @@ final class HospitalViewModel {
                 self?.lodingEnd()
             case .failure(_):
                 self?.lodingEnd()
-                self?.alert()
             }
         }
     }

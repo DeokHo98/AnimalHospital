@@ -7,26 +7,40 @@
 
 import UIKit
 
+protocol DetailHeaderDelegate: AnyObject {
+    func showEdit()
+    
+    func tapCall()
+    
+    func tabFavorite(imageView: UIImageView)
+    
+    func tabNavi()
+    
+}
+
 class DetailHeader: UITableViewHeaderFooterView {
     static let identifier = "detailHeader"
     
-    
+
     
     //MARK: - 속성
     
-    var viewModel: HeaderViewModel?
+
+    var delegate: DetailHeaderDelegate?
     
-     let nameLabel: UILabel = {
+    
+    
+    var nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 22)
+        label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .center
         return label
     }()
     
     private lazy var callView: UIView = {
-        let view = UIView().specialView(imageName: "phone", text: "전화걸기")
+        let view = UIView().specialView(imageName: "phone.fill", text: "전화걸기")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapCall))
         view.addGestureRecognizer(tapGesture)
         view.isUserInteractionEnabled = true
@@ -34,7 +48,7 @@ class DetailHeader: UITableViewHeaderFooterView {
     }()
     
     private lazy var editView: UIView = {
-        let view = UIView().specialView(imageName: "square.and.pencil", text: "수정요청")
+        let view = UIView().specialView(imageName: "pencil", text: "수정요청")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapEdit))
         view.addGestureRecognizer(tapGesture)
         view.isUserInteractionEnabled = true
@@ -42,15 +56,37 @@ class DetailHeader: UITableViewHeaderFooterView {
     }()
     
     private lazy var favoriteView: UIView = {
-        let view = UIView().specialView(imageName: "star", text: "즐겨찾기")
+        let view = UIView()
+        view.setWidth(40)
+        view.setHeight(40)
+        view.layer.cornerRadius = 5
+        view.backgroundColor = .systemBlue
+        view.addSubview(image)
+        image.centerX(inView: view)
+        image.centerY(inView: view)
+        let label = UILabel()
+        label.text = "즐겨찾기"
+        label.textColor = .systemBlue
+        label.font = .systemFont(ofSize: 18)
+        view.addSubview(label)
+        label.anchor(top: view.bottomAnchor, paddingTop: 10)
+        label.centerX(inView: view)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapFavorite))
         view.addGestureRecognizer(tapGesture)
         view.isUserInteractionEnabled = true
         return view
     }()
     
+     let image: UIImageView = {
+        let image = UIImageView(image: UIImage(systemName: "star.fill"))
+        image.tintColor = .white
+        image.setWidth(25)
+        image.setHeight(25)
+        return image
+    }()
+    
     private lazy var naviView: UIView = {
-        let view = UIView().specialView(imageName: "arrow.right.square", text: "내비게이션")
+        let view = UIView().specialView(imageName: "arrow.right.square.fill", text: "T맵연결")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapNavi))
         view.addGestureRecognizer(tapGesture)
         view.isUserInteractionEnabled = true
@@ -68,7 +104,7 @@ class DetailHeader: UITableViewHeaderFooterView {
     
     private let bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = UIColor.customGrayColor
         view.setHeight(8)
         return view
     }()
@@ -92,23 +128,20 @@ class DetailHeader: UITableViewHeaderFooterView {
     //MARK: - 셀렉터메서드
     
     @objc func tapCall() {
-        guard let viewModel = viewModel else {return}
-        if let url = URL(string: "tel://" + "\(viewModel.phoneNumber)"), UIApplication.shared.canOpenURL(url) {
-            print("전화걸기 시도합니다")
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        delegate?.tapCall()
+        
     }
     
     @objc func tapEdit() {
-        print("qweqweqwe")
+        delegate?.showEdit()
     }
     
     @objc func tapFavorite() {
-        print("mcx,vnc,nvmxcn,vn")
+        delegate?.tabFavorite(imageView: self.image)
     }
     
     @objc func tapNavi() {
-        print("한구버ㅏㅈ귑주기ㅏㅂ주깁지구ㅏ")
+        delegate?.tabNavi()
     }
     
     //MARK: - 도움메서드
@@ -118,8 +151,9 @@ class DetailHeader: UITableViewHeaderFooterView {
         
         self.addSubview(view)
         view.anchor(top:self.topAnchor,leading: self.leadingAnchor,bottom: self.bottomAnchor,trailing: self.trailingAnchor)
+        
         view.addSubview(nameLabel)
-        nameLabel.anchor(top: self.topAnchor, leading: self.leadingAnchor, trailing: self.trailingAnchor)
+        nameLabel.anchor(top: self.topAnchor, leading: self.leadingAnchor,paddingLeading: 20)
         
         view.addSubview(specialStack)
         specialStack.anchor(top: nameLabel.bottomAnchor, paddingTop: 30)
@@ -127,8 +161,16 @@ class DetailHeader: UITableViewHeaderFooterView {
         
         view.addSubview(bottomView)
         bottomView.anchor(top: specialStack.bottomAnchor,leading: self.leadingAnchor , trailing: self.trailingAnchor, paddingTop: 60)
+        
+        
     }
     
+    private func deleteData() {
+        
+    }
+    
+    
+   
     
 }
 

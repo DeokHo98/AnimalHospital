@@ -6,12 +6,11 @@
 //
 
 import Foundation
+import CoreLocation
 
 final class DetailViewModel {
     
-    deinit {
-        print("디테일뷰 모델 메모리 해제")
-    }
+   
     
     let model: HospitalModel
 
@@ -27,6 +26,10 @@ final class DetailViewModel {
         return model.phoneNumber
     }
     
+    var callNumber: String {
+        return model.phoneNumber.replacingOccurrences(of: "-", with: "")
+    }
+    
     var runtime: String {
         return model.runtime
     }
@@ -39,6 +42,13 @@ final class DetailViewModel {
         return model.imageURL
     }
     
+    var x: Double {
+        return model.x
+    }
+    
+    var y: Double {
+        return model.y
+    }
     
     
     init(model: HospitalModel) {

@@ -22,7 +22,7 @@ struct SearchModelItems: Codable {
     let link: String
     let category, itemDescription, telephone, address: String
     let roadAddress, mapx, mapy: String
-
+    
     enum CodingKeys: String, CodingKey {
         case title, link, category
         case itemDescription = "description"

@@ -8,11 +8,12 @@
 import Foundation
 import Firebase
 
-public let COLLECTION_HOSPITAL = Firestore.firestore().collection("hospital")
+
 
 struct HospitalService {
     static func fetchHospital(compltion: @escaping (Result<[HospitalModel],Error>) -> Void) {
-        COLLECTION_HOSPITAL.getDocuments() { snapshot, error in
+        let db = Firestore.firestore().collection("hospital")
+        db.getDocuments() { snapshot, error in
             if let error = error {
                 compltion(.failure(error))
                 return

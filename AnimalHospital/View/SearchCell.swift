@@ -17,6 +17,7 @@ class SearchCell: UITableViewCell {
         let label = UILabel()
         label.text = ""
         label.font = .boldSystemFont(ofSize: 22)
+        label.textColor = .black
         label.numberOfLines = 0
         return label
     }()
@@ -38,7 +39,7 @@ class SearchCell: UITableViewCell {
     }()
     
     
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -49,6 +50,6 @@ class SearchCell: UITableViewCell {
         addSubview(stack)
         stack.anchor(top: self.topAnchor, leading: self.leadingAnchor, bottom: self.bottomAnchor, trailing: self.trailingAnchor,paddingTop: 10,paddingLeading: 20,paddingBottom: 10,paddingTrailing: 20)
     }
-
-
+    
+    
 }

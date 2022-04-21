@@ -15,9 +15,9 @@ protocol SearchViewDelegate: AnyObject {
 
 class SearchViewController: UIViewController {
     
+    
+    
     //MARK: - 속성
-    
-    
     
     var delegate: SearchViewDelegate?
     
@@ -34,31 +34,40 @@ class SearchViewController: UIViewController {
     //탑뷰
     private let topView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemBlue
+        view.backgroundColor = .white
         return view
     }()
-
-
+    
+    //바텀뷰
+    private let bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.addShadow()
+        return view
+    }()
+    
+    
     //서치 텍스트필드
     private let textfield: UITextField = {
         let tf = UITextField()
         tf.returnKeyType = .search
         tf.borderStyle = .none
-        tf.tintColor = .white
-        tf.textColor = .white
+        tf.tintColor = .lightGray
+        tf.attributedPlaceholder = NSAttributedString(string: "지명 또는 건물명 검색", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        tf.textColor = .black
         tf.keyboardAppearance = .light
         tf.keyboardType = .default
-        tf.backgroundColor = .systemBlue
+        tf.backgroundColor = .white
         tf.setHeight(50)
-        tf.font = .boldSystemFont(ofSize: 18)
-    
+        tf.font = .systemFont(ofSize: 18)
+        
         return tf
     }()
-
+    
     //백 버튼
     private let searchButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = .white
+        button.tintColor = .black
         button.setImage(UIImage(systemName: "arrow.backward"), for: UIControl.State.normal)
         button.addTarget(self, action: #selector(backButtonTap), for: .touchUpInside)
         return button
@@ -72,11 +81,12 @@ class SearchViewController: UIViewController {
         return tv
     }()
     
+    private let nillView = UILabel().nillLabel(text: "검색 결과가 없습니다.")
     
     
     
     //MARK: - 라이프사이클
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -86,55 +96,56 @@ class SearchViewController: UIViewController {
     //MARK: - 도움메서드
     
     private func configure() {
+        view.backgroundColor = .white
+        
         view.addSubview(topView)
-        topView.anchor(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, height: 100)
-
+        topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, height: 60)
+        
         view.addSubview(searchButton)
-        searchButton.setDimensions(height: 30, width: 30)
-        searchButton.anchor(leading: view.leadingAnchor, bottom: topView.bottomAnchor,paddingLeading: 20,paddingBottom: 15)
-
+        searchButton.anchor(leading: view.leadingAnchor,paddingLeading: 20,width: 30, height: 40)
+        searchButton.centerY(inView: topView)
+        
         view.addSubview(textfield)
         textfield.delegate = self
         textfield.centerY(inView: searchButton)
         textfield.anchor(leading: searchButton.trailingAnchor, trailing: view.trailingAnchor, paddingLeading: 20, paddingTrailing: 20)
         
+        view.addSubview(bottomView)
+        bottomView.anchor(top: topView.bottomAnchor, leading: view.leadingAnchor,trailing: view.trailingAnchor, height: 5)
+        
         
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
-
+        
         
         view.addSubview(tableView)
-        tableView.anchor(top: topView.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor ,trailing: view.trailingAnchor)
+        tableView.anchor(top: bottomView.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor ,trailing: view.trailingAnchor)
         
-        
-        textfield.becomeFirstResponder()
     }
     
     private func searhViewModelClosure() {
         searchViewModel?.loddingStart = { [weak self] in
             self?.activityON()
         }
-
+        
         searchViewModel?.lodingEnd = { [weak self] in
             self?.activityOFF()
         }
-
-        searchViewModel?.alert = { [weak self] in
-            self?.errorAlter()
-        }
+        
+        
     }
     
     
     //액티비티 뷰 메서드
-   private func activityON() {
+    private func activityON() {
         view.addSubview(activity)
         activity.tintColor = .gray
         activity.centerX(inView: view)
         activity.centerY(inView: view)
         activity.startAnimating()
     }
-
+    
     private func activityOFF() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
@@ -143,18 +154,9 @@ class SearchViewController: UIViewController {
         }
     }
     
-    //에러 얼럿 메서드
-    private func errorAlter() {
-        activityOFF()
-        let alert = UIAlertController(title: "에러가 발생했습니다", message: "인터넷 연결을 확인하고 다시 시도해보십시오", preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "확인", style: .default, handler: nil)
-
-        alert.addAction(okButton)
-        present(alert, animated: true, completion: nil)
-    }
-
     
-
+    
+    
     
     //MARK: - 셀렉터 메서드
     //백 버튼을 눌렀을때
@@ -173,40 +175,49 @@ extension SearchViewController: UITextFieldDelegate {
         searchButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
         textfield.attributedPlaceholder = nil
     }
-
+    
     //텍스트필드에서 서치버튼을 눌렀을때
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textfield.text else {return true}
         searchViewModel?.fetch(searhText: text)
         textfield.resignFirstResponder()
-       return true
+        
+        return true
     }
-
+    
 }
 
 //MARK: - 테이블뷰 데이터소스
 extension SearchViewController: UITableViewDataSource {
     //테이블뷰의 셀의 갯수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchViewModel?.count() == 0 {
+            view.addSubview(nillView)
+            nillView.centerY(inView: view)
+            nillView.centerX(inView: view)
+        } else {
+            nillView.removeFromSuperview()
+        }
+        
         return searchViewModel?.count() ?? 0
     }
-
+    
     //테이블뷰의 셀
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier, for: indexPath) as! SearchCell
-        
+        cell.backgroundColor = .white
         cell.namelabel.text = searchViewModel?.name(index: indexPath.row)
         cell.adressLabel.text = searchViewModel?.address(index: indexPath.row)
         return cell
     }
-
+    
     //셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
-
+        
     }
-
-
+    
+    
 }
 
 
@@ -215,9 +226,10 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let lating = searchViewModel?.lating(index: indexPath.row) else {return}
         delegate?.locationData(lating: lating)
+        
         navigationController?.popViewController(animated: true)
-    
-      
+        
+        
     }
 }
 

@@ -23,7 +23,7 @@ struct HospitalModel {
         self.phoneNumber = dic["phoneNumber"] as? String ?? ""
         self.runtime = dic["runtime"] as? String ?? ""
         self.imageURL = dic["image"] as? String ?? "이미지 없음"
-        self.tax = dic["tax"] as? String ?? "야간 할증 비용이 없는 병원입니다"
+        self.tax = dic["tax"] as? String ?? "야간 할증 정보가 없습니다"
         self.x = dic["x"] as? Double ?? 0
         self.y = dic["y"] as? Double ?? 0
     }

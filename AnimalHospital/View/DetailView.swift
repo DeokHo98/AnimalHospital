@@ -6,14 +6,22 @@
 //
 
 import UIKit
-
+import MapKit
+import TMapSDK
 //스크롤을 아래로 내린뒤의 시점을 델리게이트패턴으로 전송
 protocol DetailViewDelegate: AnyObject {
     func scrollDown()
+    
+    func showEditView(name: String)
+    
+ 
+    
 }
 
 
 class DetailView: UIView {
+    
+    
     
     
     //MARK: - 디테일 속성
@@ -21,37 +29,29 @@ class DetailView: UIView {
     weak var delegate: DetailViewDelegate?
     
     var viewModel: DetailViewModel? {
-        willSet {
+        didSet {
+            self.imageView.image = nil
+            imageFetch()
             tableView.reloadData()
         }
     }
     
+    let favoriteviewModel: FavoriteViewModel = FavoriteViewModel()
+    
+    var currentFavorite: Bool = false
+    
     //이미지 뷰
-    private lazy var imageView: UIImageView = {
+     lazy var imageView: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .systemGray5
-        iv.contentMode = .scaleAspectFill
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapImage))
-        iv.isUserInteractionEnabled = true
-        iv.addGestureRecognizer(tap)
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "camera"), for: .normal)
-        button.setTitle(" 사진 제공하기", for: .normal)
-        button.backgroundColor = .clear
-        button.tintColor = .systemBlue
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18)
-        button.addTarget(self, action: #selector(tapImage), for: .touchUpInside)
-        iv.addSubview(button)
-        button.centerY(inView: iv)
-        button.centerX(inView: iv)
+        iv.backgroundColor = UIColor.customGrayColor
+        iv.contentMode = .scaleToFill
         return iv
     }()
     
     //상단에 보여지는 작은 뷰
     private let topView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = UIColor.customGrayColor
         view.setHeight(5)
         view.setWidth(40)
         view.layer.cornerRadius = 5  / 2
@@ -59,6 +59,9 @@ class DetailView: UIView {
     }()
     
     
+    
+    //복사했을때 뜨는 토스트메시지
+    private let toastLabel = UILabel().toastLabel(text: "복사되었습니다")
     
     //테이블뷰
     private var tableView: UITableView = UITableView(frame: .zero, style: .grouped)
@@ -80,14 +83,12 @@ class DetailView: UIView {
     
     //MARK: - 셀렉터메서드
     
-    //이미지를 터치했을때 호출되는 메서드
-    @objc private func tapImage() {
-        print(1231231231)
-    }
+
     
     
     //MARK: - 뷰 도움메서드
     private func configure() {
+        
         self.backgroundColor = .white
         self.addShadow()
         self.addSubview(topView)
@@ -103,12 +104,16 @@ class DetailView: UIView {
         tableView.register(DetailFooter.self, forHeaderFooterViewReuseIdentifier: DetailFooter.identifier)
         tableView.register(DetailCell.self, forCellReuseIdentifier: DetailCell.identifier)
         tableView.backgroundColor = .white
-        tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
         tableView.rowHeight = 70
         tableView.anchor(top: topView.bottomAnchor, leading: self.leadingAnchor, bottom: self.bottomAnchor,trailing: self.trailingAnchor, paddingTop: 20)
+        
+       
+       
+        
+        
         
     }
     
@@ -137,6 +142,44 @@ class DetailView: UIView {
         tableView.isScrollEnabled = false
         
     }
+    
+    private func fetch(image: UIImageView) {
+         guard let viewModel = viewModel else {return}
+        favoriteviewModel.fetch()
+        for model in favoriteviewModel.coreDataModels {
+            if model.name == viewModel.name {
+                currentFavorite = true
+                image.tintColor = .yellow
+                break
+            } else {
+                currentFavorite = false
+                image.tintColor = .white
+            }
+        }
+     }
+    
+    private func showToast() {
+            self.addSubview(toastLabel)
+            toastLabel.centerX(inView: self)
+            toastLabel.anchor(bottom: self.bottomAnchor, paddingBottom: 50,width: 200)
+       
+       
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) { [weak self] in
+            self?.toastLabel.removeFromSuperview()
+        }
+    }
+    
+    private func imageFetch() {
+        guard let viewModel = viewModel else {return}
+        ImageLoader.fetchImage(url: viewModel.imageURL) { [weak self] image in
+            DispatchQueue.main.async { [weak self] in
+                self?.imageView.image = image
+            }
+        }
+    }
+    
+    
+    
 }
 extension DetailView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,22 +188,24 @@ extension DetailView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DetailCell.identifier, for: indexPath) as! DetailCell
+        guard let viewModel = viewModel else {return cell}
+        cell.selectionStyle = .none
         switch indexPath.row {
         case 0:
-            cell.cellImage.image = UIImage(systemName: "timer")
-            cell.cellLabel.text = viewModel?.runtime
+            cell.detailLabel.text = viewModel.runtime
+            cell.cellLabel.text = "운영시간"
             return cell
         case 1:
-            cell.cellImage.image = UIImage(systemName: "dollarsign.circle")
-            cell.cellLabel.text = viewModel?.tax
+            cell.detailLabel.text = viewModel.tax
+            cell.cellLabel.text = "야간할증"
             return cell
         case 2:
-            cell.cellImage.image = UIImage(systemName: "map")
-            cell.cellLabel.text = viewModel?.address
+            cell.detailLabel.attributedText = NSMutableAttributedString().detailString(text: viewModel.address + "    복사")
+            cell.cellLabel.text = "병원주소"
             return cell
         case 3:
-            cell.cellImage.image = UIImage(systemName: "phone")
-            cell.cellLabel.text = viewModel?.phoneNumber
+            cell.detailLabel.attributedText = NSMutableAttributedString().detailString(text: viewModel.phoneNumber + "    복사")
+            cell.cellLabel.text = "전화번호"
             return cell
         default:
             return cell
@@ -173,11 +218,26 @@ extension DetailView: UITableViewDataSource {
 //MARK: - 테이블뷰 델리게이트
 
 extension DetailView: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 2:
+            UIPasteboard.general.string = viewModel?.address
+            showToast()
+            
+            
+        case 3: UIPasteboard.general.string = viewModel?.callNumber
+            showToast()
+        default: return
+        }
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailHeader.identifier) as! DetailHeader
         guard let viewModel = viewModel else {return header}
+        fetch(image: header.image)
         header.nameLabel.text = viewModel.name
-        header.viewModel = HeaderViewModel(model: viewModel.model)
+        header.delegate = self
         return header
     }
     
@@ -205,3 +265,55 @@ extension DetailView: UIScrollViewDelegate {
         }
     }
 }
+
+//MARK: - 헤더 델리게이트
+extension DetailView: DetailHeaderDelegate {
+    
+     func tabNavi() {
+         guard let viewModel = viewModel else {return}
+         let TmapBool = TMapApi.isTmapApplicationInstalled()
+         if TmapBool {
+             TMapApi.invokeRoute(viewModel.name, coordinate: CLLocationCoordinate2D(latitude: viewModel.x, longitude: viewModel.y))
+         } else {
+             let appstoreUrl = TMapApi.getTMapDownUrl()
+             guard let url = URL(string: appstoreUrl) else {return}
+             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+         }
+    }
+    
+    func tabFavorite(imageView: UIImageView) {
+        guard let viewModel = viewModel else { return}
+        if currentFavorite {
+            favoriteviewModel.fetch()
+            for model in favoriteviewModel.coreDataModels {
+                if model.name == viewModel.name && model.address == viewModel.address {
+                    currentFavorite = false
+                    imageView.tintColor = .white
+                    CoreDataService.deleteCoreData(model: model)
+                }
+            }
+        } else {
+            CoreDataService.uploadCoreData(name: viewModel.name, address: viewModel.address)
+            currentFavorite = true
+            imageView.tintColor = .yellow
+        }
+    }
+    
+    func showEdit() {
+        guard let viewModel = viewModel else { return}
+        delegate?.showEditView(name: viewModel.name)
+    }
+    
+    func tapCall() {
+        guard let viewModel = viewModel else { return}
+        if let url = URL(string: "tel://" + "\(viewModel.phoneNumber)"), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
+    
+    
+    
+}
+

@@ -13,7 +13,7 @@ class DetailFooter: UITableViewHeaderFooterView {
     //정보 안내 레이블 입니다.
     private let detailText: UILabel = {
         let label = UILabel()
-        label.text = "안내하는 병원 정보는 최신 병원 정보와 다를수 있습니다. 방문 전에 꼭 한번 전화를 해보시고 방문을 하시길 바랍니다"
+        label.text = "안내하는 병원 정보는 최신 병원 정보와 다를수 있습니다. 틀린 정보로 인한 피해는 책임지지 않습니다. 이중확인을 통해 운영중인지 확인후에 방문 해주시길 바랍니다."
         label.textColor = .darkGray
         label.font = .systemFont(ofSize: 16)
         label.numberOfLines = 0
@@ -23,7 +23,7 @@ class DetailFooter: UITableViewHeaderFooterView {
     
     private let topView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = UIColor.customGrayColor
         view.setHeight(8)
         return view
     }()

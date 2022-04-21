@@ -10,6 +10,7 @@ import NMapsMap
 
 final class SearchViewModel {
     
+  
     
     
     var models : [SearchModel] = []
@@ -18,7 +19,7 @@ final class SearchViewModel {
     
     var lodingEnd: () -> Void = {}
     
-    var alert: () -> Void = {}
+    
     
     
     func count() -> Int {
@@ -54,7 +55,6 @@ final class SearchViewModel {
                  self?.lodingEnd()
              case .failure(_):
                  self?.lodingEnd()
-                 self?.alert()
              }
         }
         
