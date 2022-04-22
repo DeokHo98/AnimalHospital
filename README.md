@@ -367,3 +367,5 @@ private func fetchFavorite(image: UIImageView) {
 
 </details>
 
+
+
