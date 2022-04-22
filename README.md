@@ -12,11 +12,25 @@
 디자인 패턴은 MVVM 패턴을 사용했습니다.   
 
 
+## 구현기능
+1. 위치 검색기능   
+   
+2. 주변 동물병원 위치 기능   
+   
+3. 수정요청, 제보 기능   
+   
+4. 즐겨찾기 기능   
+   
+5. 티맵 내비 연동기능
+   
+6. 전화 기능    
+   
+
 ## 개발과정
 
 
 
-### 네이버 지역 검색 API
+### 위치검색기능
 
 ![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 16 50 13](https://user-images.githubusercontent.com/93653997/164642882-f7b2a238-42f7-4bfe-afe1-63faf7a6966f.gif)
 
@@ -152,7 +166,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 
    
-### 네이버맵 API   
+### 주변 동물병원 위치 기능    
 ![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 16 29 26](https://user-images.githubusercontent.com/93653997/164627998-dbfbf64c-405d-46d4-a186-9052abed6be2.gif)
 
 
