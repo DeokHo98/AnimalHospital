@@ -370,6 +370,9 @@ private func fetchFavorite(image: UIImageView) {
 
 
 ### 이미지 불러오기
+   
+![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 22 41 01](https://user-images.githubusercontent.com/93653997/164726088-1f49c35f-7b84-466d-b2b5-529f5f7cbfa8.gif)
+
 
 url을 이용해 이미지를 불러오고 반복되는 네트워크통신을 방지하기위해 NSCache 를 이용해 이미지를 캐시에 저장한뒤 캐시에 이미지가 있는지 확인후 없을경우에만 네트워크통신을 하게끔 구현했습니다. 
 
