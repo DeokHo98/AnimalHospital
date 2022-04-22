@@ -22,5 +22,112 @@
 데이터 로딩이 완료되면 로딩화면이 사라진후에 받아온 데이터를 반복문을 활용해 마커로 표시합니다.   
 그럼 결과적으로 화면이 모든 동물병원의 위치가 마커로 표시됩니다.
 <details>
-we;gke;rkg;erlgkerkg
+
+파이어베이스에서 데이터를 받아오는 Service 코드   
+
+```swift
+struct HospitalService {
+    static func fetchHospital(compltion: @escaping (Result<[HospitalModel],Error>) -> Void) {
+        let db = Firestore.firestore().collection("hospital")
+        db.getDocuments() { snapshot, error in
+            if let error = error {
+                compltion(.failure(error))
+                return
+            }
+            guard let doc = snapshot?.documents else {return}
+            let model = doc.map {
+                HospitalModel(dic: $0.data())
+            }
+            compltion(.success(model))
+        }
+    }
+}
+```
+
+파이어베이스에서 받아온 데이터를 모델로 만드는 코드   
+
+```swift
+struct HospitalModel {
+    var name: String
+    var address: String
+    var phoneNumber: String
+    var runtime: String
+    var imageURL: String
+    var tax: String
+    var x: Double
+    var y: Double
+    
+    init(dic: [String: Any]) {
+        self.name = dic["name"] as? String ?? ""
+        self.address = dic["address"] as? String ?? ""
+        self.phoneNumber = dic["phoneNumber"] as? String ?? ""
+        self.runtime = dic["runtime"] as? String ?? ""
+        self.imageURL = dic["image"] as? String ?? "이미지 없음"
+        self.tax = dic["tax"] as? String ?? "야간 할증 정보가 없습니다"
+        self.x = dic["x"] as? Double ?? 0
+        self.y = dic["y"] as? Double ?? 0
+    }
+}
+
+
+```
+
+
+모델을 이용해 뷰에서 필요한데이터로 만든 ViewModel 코드   
+데이터를 받은게 끝나는 시점을 알기위해 만든 클로져 lodingEnd   
+
+```swift
+final class HospitalViewModel {
+    
+
+    var models: [HospitalModel] = []
+    
+    var lodingEnd: () -> Void = {}
+    
+    func fetch() {
+        HospitalService.fetchHospital { [weak self] result in
+            switch result {
+            case .success(let model):
+                self?.models = model
+                self?.lodingEnd()
+            case .failure(_):
+                self?.lodingEnd()
+            }
+        }
+    }
+}
+
+```
+
+이 viewModel을 이용해 반복문을 통해 마커를 생성하는 코드   
+
+```swift
+private func lodingViewOFF() {
+        //네이버 공식문서에서 같은 이미지를 쓰는경우 오버레이 이미지를 하나만 생성해서 사용해야한다고 합니다.
+        let image = NMFOverlayImage(name: "마커이미지")
+        loadingView.removeFromSuperview()
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            for models in self!.hospitalViewModel.models {
+                let marker = NMFMarker()
+                marker.iconImage = image
+                marker.position = NMGLatLng(lat: models.x, lng: models.y)
+                marker.width = 40
+                marker.height = 60
+                marker.touchHandler = { [weak self] (ovrlay: NMFOverlay) -> Bool in
+                    self?.marker.mapView = nil
+                    self?.containerView.viewModel = DetailViewModel(model: models)
+                    self?.animatePresentContainer()
+                    self?.selectCameraZoom()
+                    let camUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: models.x, lng: models.y))
+                    self?.naverMapView.moveCamera(camUpdate)
+                    return true
+                }
+                DispatchQueue.main.async { [weak self] in
+                    marker.mapView = self?.naverMapView
+                }
+            }
+        }
+    }
+```
+
 <summary>코드보기</summary>
