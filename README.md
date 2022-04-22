@@ -21,6 +21,7 @@
 검색 결과를 테이블뷰로 보여주고 셀을 클릭하면 클릭한 셀의 해당지역 좌표값을 가지고   
 네이버맵의 카메라를 이동시킵니다.   
 <details>
+<summary>코드보기</summary>
 
 네이버 검색 결과를 URL세션을 이용해 JSON형태로 받아와 모델로 만드는 코드  
 
@@ -142,7 +143,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 ```
 
 
-<summary>코드보기</summary>
+
 
 
    
@@ -157,6 +158,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 데이터 로딩이 완료되면 로딩화면이 사라진후에 받아온 데이터를 반복문을 활용해 마커로 표시합니다.   
 그럼 결과적으로 화면에 모든 동물병원의 위치가 마커로 표시됩니다.
 <details>
+<summary>코드보기</summary>
 
 파이어베이스에서 데이터를 받아와 모델로 만드는 Service 코드
 
@@ -238,4 +240,4 @@ private func lodingViewOFF() {
     }
 ```
 
-<summary>코드보기</summary>
+
