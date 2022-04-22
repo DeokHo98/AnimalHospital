@@ -369,7 +369,59 @@ private func fetchFavorite(image: UIImageView) {
 </details>
 
 
+### 이미지 불러오기
 
-# 앱스토어 심사
+url을 이용해 이미지를 불러오고 반복되는 네트워크통신을 방지하기위해 NSCache 를 이용해 이미지를 캐시에 저장한뒤 캐시에 이미지가 있는지 확인후 없을경우에만 네트워크통신을 하게끔 구현했습니다. 
+
+<details>
+<summary>코드보기</summary>
+
+```swift
+var imageCache = NSCache<NSString, UIImage>()
+
+struct ImageLoader {
+    static func fetchImage(url: String, compliton: @escaping (UIImage) -> Void) {
+        
+        DispatchQueue.global(qos: .default).async {
+            let cachedKey =  NSString(string: url)
+            //이미지가 캐시에 있는지 확인
+            //캐시에 이미지가 있으면 이미지를 바로 전달
+            if let cachedImage = imageCache.object(forKey: cachedKey) {
+                compliton(cachedImage)
+                return
+            }
+        
+        //없는 경우 url통신 시작
+        guard let url = URL(string: url) else {return}
+        
+        URLSession.shared.dataTask(with: url) { data, respones, error in
+            if error != nil {
+                guard let image = UIImage(named: "이미지가없습니다") else {return}
+                compliton(image)
+                return
+            }
+            
+            guard let imageData = data else {return}
+            
+            guard let photoImage = UIImage(data: imageData) else {return}
+            
+            //그리고 캐시에 넣어줌 그럼 다음부터는 url 통신을 안해도됨
+            imageCache.setObject(photoImage, forKey: cachedKey)
+            
+            
+            compliton(photoImage)
+        }.resume()
+        }
+    }
+}
+```
+
+
+</details>
+
+
+## 앱스토어 심사
 1. 첫번째 리젝   
 처음 앱을 켰을때 위치사용권한요청이 나오는데 그때 일방적으로 "위치를사용합니다" 라고만 표기한것이 첫번째 리젝사유가 되었습니다.. 구체적으로 위치사용을 어디에 사용하는가를 표기해야한다고 했고 "내 주변 24시동물병원의 표시를위해 위치를 사용합니다" 라고 구체적으로 바꿔준뒤 재 심사를 요청했습니다.
+
+
