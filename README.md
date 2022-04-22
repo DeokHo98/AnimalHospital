@@ -13,20 +13,152 @@
 
 
 ## 개발과정
+
+
+### 네이버 지역 검색 API
+원하는 지역을 검색하고 그 위치로 이동한뒤   
+그위치 주변의 병원정보를 알기위해 네이버 검색 API를 활용했습니다.   
+검색 결과를 테이블뷰로 보여주고 셀을 클릭하면 클릭한 셀의 해당지역 좌표값을 가지고   
+네이버맵의 카메라를 이동시킵니다.   
+<details>
+
+네이버 검색 결과를 URL세션을 이용해 JSON형태로 받아와 모델로 만드는 코드  
+
+```swift
+static func fetchSearchService(queryValue: String, compltion: @escaping (Result<[SearchModel], Error>) -> Void) {
+        DispatchQueue.global(qos: .default).async {
+            let clientID = "AZNe9xs00tGIlUvyHPXj"
+            let secretID = "XbdL_MZyWc"
+            
+            let query = "https://openapi.naver.com/v1/search/local.json?query=\(queryValue)&display=10&start=1&sort=random"
+            
+            guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else {return}
+            
+            guard let url = URL(string: encodedQuery) else {return}
+            
+            var requestURL = URLRequest(url: url)
+            
+            requestURL.addValue(clientID, forHTTPHeaderField: "X-Naver-Client-Id")
+            requestURL.addValue(secretID, forHTTPHeaderField: "X-Naver-Client-Secret")
+            
+            URLSession.shared.dataTask(with: requestURL) { data, respones, error in
+                if error != nil {
+                    compltion(.failure(error!))
+                    return
+                }
+                
+                guard let data = data else {
+                    return
+                }
+                
+                do {
+                    let decodeData = try JSONDecoder().decode(SearchModelList.self, from: data)
+                    let searhModels = decodeData.items.map {
+                        SearchModel(name: $0.title, address: $0.roadAddress, x: $0.mapx, y: $0.mapy)
+                    }
+                    compltion(.success(searhModels))
+                } catch {
+                }
+            }.resume()
+        }
+        
+    }
+}
+
+```
+
+받아온 모델을 통해 뷰에 보여줄 Viewmodel 코드   
+데이터를 받기 시작한 시점과 끝난시점을 알기위해    
+loddingStart와 lodingEnd 를만들었고    
+이로인해 받아오는중의 로딩뷰를 표시했음    
+델리게이트 패턴으로 HomeViewController에 lating값을 전달하고   
+그 값을 이용해 카메라를 이동시켰음
+
+```swift
+final class SearchViewModel {
+    
+    var models : [SearchModel] = []
+    
+    var loddingStart: () -> Void = {}
+    
+    var lodingEnd: () -> Void = {}
+    
+    func count() -> Int {
+        return models.count
+    }
+    
+    func name(index: Int) -> String {
+        return models[index].name.components(separatedBy: ["b","/","<",">"]).joined()
+    }
+    
+    func address(index: Int) -> String {
+        return models[index].address
+    }
+    
+    func lating(index: Int) -> NMGLatLng {
+        guard let xInt = Int(models[index].x) else {return NMGLatLng()}
+        guard let yInt = Int(models[index].y) else {return NMGLatLng()}
+        let xDouble = Double(xInt)
+        let yDouble = Double(yInt)
+        let tm = NMGTm128(x: xDouble, y: yDouble)
+        let lating = tm.toLatLng()
+        return lating
+    }
+    
+    func fetch(searhText: String) {
+        loddingStart()
+        SearchService.fetchSearchService(queryValue: searhText) { [weak self] result in
+             switch result {
+             case .success(let models):
+                 self?.models = models
+                 self?.lodingEnd()
+             case .failure(_):
+                 self?.lodingEnd()
+             }
+        }
+    }
+}
+
+
+
+
+
+```
+
+델리게이트 패턴
+
+```swift
+protocol SearchViewDelegate: AnyObject {
+    func locationData(lating: NMGLatLng)
+}
+
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let lating = searchViewModel?.lating(index: indexPath.row) else {return}
+        delegate?.locationData(lating: lating)
+        navigationController?.popViewController(animated: true)
+        
+        
+    }
+```
+
+
+<summary>코드보기</summary>
+
+
    
 ### 네이버맵 API   
-![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 16 21 12](https://user-images.githubusercontent.com/93653997/164626619-d5240888-7b01-4306-9784-d019eff5a7fb.gif)
+![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 16 29 26](https://user-images.githubusercontent.com/93653997/164627998-dbfbf64c-405d-46d4-a186-9052abed6be2.gif)
 
 
 동물병원의 위치를 나타낼 지도는 네이버 맵 Api를 활용했습니다.    
 네이버맵 API같은경우 여러가지 기능을 제공하는데       
 그중 병원의 위치를 알수있는 마커를 활용했습니다.
-앱을 키자마자 데이터 로딩화면이 표시되고   
+앱을 켠후 데이터 로딩화면이 표시되고   
 데이터 로딩이 완료되면 로딩화면이 사라진후에 받아온 데이터를 반복문을 활용해 마커로 표시합니다.   
 그럼 결과적으로 화면에 모든 동물병원의 위치가 마커로 표시됩니다.
 <details>
 
-파이어베이스에서 데이터를 받아오는 Service 코드   
+파이어베이스에서 데이터를 받아와 모델로 만드는 Service 코드
 
 ```swift
 struct HospitalService {
@@ -46,38 +178,10 @@ struct HospitalService {
     }
 }
 ```
-
-파이어베이스에서 받아온 데이터를 모델로 만드는 코드   
-
-```swift
-struct HospitalModel {
-    var name: String
-    var address: String
-    var phoneNumber: String
-    var runtime: String
-    var imageURL: String
-    var tax: String
-    var x: Double
-    var y: Double
-    
-    init(dic: [String: Any]) {
-        self.name = dic["name"] as? String ?? ""
-        self.address = dic["address"] as? String ?? ""
-        self.phoneNumber = dic["phoneNumber"] as? String ?? ""
-        self.runtime = dic["runtime"] as? String ?? ""
-        self.imageURL = dic["image"] as? String ?? "이미지 없음"
-        self.tax = dic["tax"] as? String ?? "야간 할증 정보가 없습니다"
-        self.x = dic["x"] as? Double ?? 0
-        self.y = dic["y"] as? Double ?? 0
-    }
-}
-
-
-```
-
-
-모델을 이용해 뷰에서 필요한데이터로 만든 ViewModel 코드   
-데이터를 받은게 끝나는 시점을 알기위해 만든 클로져 lodingEnd   
+  
+ViewModel 코드   
+데이터를 받은게 끝나는 시점을 알기위해 만든 lodingEnd   
+이 클로져를 이용해 로딩이 끝난 시점에 뷰를 보여줌   
 
 ```swift
 final class HospitalViewModel {
