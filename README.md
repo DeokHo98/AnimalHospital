@@ -23,6 +23,3 @@
 그럼 결과적으로 화면이 모든 동물병원의 위치가 마커로 표시됩니다.
 <details>
 <summary>코드보기</summary>
-
-
-<details>
