@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-import TMapSDK
+//import TMapSDK
 
 //스크롤을 아래로 내린뒤의 시점을 델리게이트패턴으로 전송
 protocol DetailViewDelegate: AnyObject {
@@ -269,15 +269,15 @@ extension DetailView: UIScrollViewDelegate {
 extension DetailView: DetailHeaderDelegate {
     
      func tabNavi() {
-         guard let viewModel = viewModel else {return}
-         let TmapBool = TMapApi.isTmapApplicationInstalled()
-         if TmapBool {
-             TMapApi.invokeRoute(viewModel.name, coordinate: CLLocationCoordinate2D(latitude: viewModel.x, longitude: viewModel.y))
-         } else {
-             let appstoreUrl = TMapApi.getTMapDownUrl()
-             guard let url = URL(string: appstoreUrl) else {return}
-             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-         }
+//         guard let viewModel = viewModel else {return}
+//         let TmapBool = TMapApi.isTmapApplicationInstalled()
+//         if TmapBool {
+//             TMapApi.invokeRoute(viewModel.name, coordinate: CLLocationCoordinate2D(latitude: viewModel.x, longitude: viewModel.y))
+//         } else {
+//             let appstoreUrl = TMapApi.getTMapDownUrl()
+//             guard let url = URL(string: appstoreUrl) else {return}
+//             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//         }
     }
     
     func tabFavorite(imageView: UIImageView) {

@@ -9,10 +9,10 @@ import UIKit
 import Firebase
 import NMapsMap
 import CoreData
-import TMapSDK
+//import TMapSDK
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate,TMapTapiDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TMapTapiDelegate {
         NMFAuthManager.shared().clientId = "xl3dgflskb"
         FirebaseApp.configure()
         saveContext()
-        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "l7xx451844e0ba564314950d6637f17f1a2a")
+        //TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "l7xx451844e0ba564314950d6637f17f1a2a")
         return true
     }
 

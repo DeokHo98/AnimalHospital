@@ -226,7 +226,6 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let lating = searchViewModel?.lating(index: indexPath.row) else {return}
         delegate?.locationData(lating: lating)
-        
         navigationController?.popViewController(animated: true)
         
         

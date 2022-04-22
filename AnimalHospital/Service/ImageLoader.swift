@@ -15,15 +15,12 @@ struct ImageLoader {
         DispatchQueue.global(qos: .default).async {
             let cachedKey =  NSString(string: url)
             //이미지가 캐시에 있는지 확인
-            
             //캐시에 이미지가 있으면 이미지를 바로 전달
             if let cachedImage = imageCache.object(forKey: cachedKey) {
                 compliton(cachedImage)
                 return
             }
         
-       
-   
         //없는 경우 url통신 시작
         guard let url = URL(string: url) else {return}
         
@@ -45,6 +42,5 @@ struct ImageLoader {
             compliton(photoImage)
         }.resume()
         }
-        
     }
 }

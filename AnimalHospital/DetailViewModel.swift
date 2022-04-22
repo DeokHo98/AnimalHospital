@@ -10,8 +10,6 @@ import CoreLocation
 
 final class DetailViewModel {
     
-   
-    
     let model: HospitalModel
 
     var name: String {

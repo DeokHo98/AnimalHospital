@@ -10,17 +10,11 @@ import NMapsMap
 
 final class SearchViewModel {
     
-  
-    
-    
     var models : [SearchModel] = []
     
     var loddingStart: () -> Void = {}
     
     var lodingEnd: () -> Void = {}
-    
-    
-    
     
     func count() -> Int {
         return models.count
@@ -44,8 +38,6 @@ final class SearchViewModel {
         return lating
     }
     
-    
-    
     func fetch(searhText: String) {
         loddingStart()
         SearchService.fetchSearchService(queryValue: searhText) { [weak self] result in
@@ -57,9 +49,6 @@ final class SearchViewModel {
                  self?.lodingEnd()
              }
         }
-        
     }
-    
-
 }
 

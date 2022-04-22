@@ -16,7 +16,6 @@ final class HospitalViewModel {
     
     var lodingEnd: () -> Void = {}
     
-    
     func fetch() {
         HospitalService.fetchHospital { [weak self] result in
             switch result {
