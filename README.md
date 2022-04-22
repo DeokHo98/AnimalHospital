@@ -141,7 +141,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
 ```
-
+<details>
 
 
 
@@ -239,5 +239,5 @@ private func lodingViewOFF() {
         }
     }
 ```
-
+<details>
 
