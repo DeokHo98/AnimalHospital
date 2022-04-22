@@ -297,3 +297,75 @@ struct EditService {
 }
 ```
 
+<details>
+
+
+### 즐겨찾기 기능
+
+![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 17 15 38](https://user-images.githubusercontent.com/93653997/164647188-ed97da58-db2d-4028-a9ca-371108a50b31.gif)
+
+즐겨찾기 버튼을 누르면 선택한 병원의 주소와 이름 데이터가 coreData에 저장됩니다.   
+그리고 어떤 병원의 정보를 클릭했을때 coreData의 데이터를 모두 불러오고   
+불러온 데이터와 현재 데이터가 일치하는경우 즐겨찾기버튼이 노란색으로 바뀝니다.   
+즐겨찾기 목록 버튼을 누르면 coreData의 데이터를 모두 블러와 테이블뷰로 표시합니다.   
+
+<details>
+<summary>코드보기</summary>
+
+코어데이터의 CRD 코드입니다.
+```swift
+struct CoreDataService {
+    
+  static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    static func uploadCoreData(name: String, address: String) {
+        let model = Favorite(context: context)
+        model.name = name
+        model.address = address
+        do {
+            try context.save()
+        } catch {
+        }
+    }
+    
+    static func loadCoreData(compltion: @escaping ([Favorite]) -> Void) {
+        let request : NSFetchRequest<Favorite> = Favorite.fetchRequest()
+        do {
+            let model = try context.fetch(request)
+            compltion(model)
+        } catch {
+        }
+    }
+    
+    static func deleteCoreData(model: Favorite) {
+        context.delete(model)
+        do {
+           try context.save()
+        } catch {
+        }
+    }
+}
+
+```
+
+즐겨찾기 ViewModel과 현재보고있는 ViewModel을 비교해서 즐겨찾기버튼을 노란색으로 설정하는 코드입니다
+
+```swift
+private func fetchFavorite(image: UIImageView) {
+         guard let viewModel = viewModel else {return}
+        favoriteviewModel.fetch()
+        for model in favoriteviewModel.coreDataModels {
+            if model.name == viewModel.name {
+                currentFavorite = true
+                image.tintColor = .yellow
+                break
+            } else {
+                currentFavorite = false
+                image.tintColor = .white
+            }
+        }
+     }
+```
+
+</details>
+
