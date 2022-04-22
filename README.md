@@ -15,12 +15,15 @@
 ## 개발과정
    
 ### 네이버맵 API   
+![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 16 21 12](https://user-images.githubusercontent.com/93653997/164626619-d5240888-7b01-4306-9784-d019eff5a7fb.gif)
+
+
 동물병원의 위치를 나타낼 지도는 네이버 맵 Api를 활용했습니다.    
 네이버맵 API같은경우 여러가지 기능을 제공하는데       
 그중 병원의 위치를 알수있는 마커를 활용했습니다.
 앱을 키자마자 데이터 로딩화면이 표시되고   
 데이터 로딩이 완료되면 로딩화면이 사라진후에 받아온 데이터를 반복문을 활용해 마커로 표시합니다.   
-그럼 결과적으로 화면이 모든 동물병원의 위치가 마커로 표시됩니다.
+그럼 결과적으로 화면에 모든 동물병원의 위치가 마커로 표시됩니다.
 <details>
 
 파이어베이스에서 데이터를 받아오는 Service 코드   
@@ -100,6 +103,7 @@ final class HospitalViewModel {
 ```
 
 이 viewModel을 이용해 반복문을 통해 마커를 생성하는 코드   
+viewModel에서 만든 lodingEnd 클료져가 호출되면 아래 함수가 호출됨   
 
 ```swift
 private func lodingViewOFF() {
