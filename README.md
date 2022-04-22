@@ -297,7 +297,7 @@ struct EditService {
 }
 ```
 
-<details>
+</details>
 
 
 ### 즐겨찾기 기능
