@@ -15,7 +15,12 @@
 ## 개발과정
 
 
+
 ### 네이버 지역 검색 API
+
+![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 16 50 13](https://user-images.githubusercontent.com/93653997/164642882-f7b2a238-42f7-4bfe-afe1-63faf7a6966f.gif)
+
+
 원하는 지역을 검색하고 그 위치로 이동한뒤   
 그위치 주변의 병원정보를 알기위해 네이버 검색 API를 활용했습니다.   
 검색 결과를 테이블뷰로 보여주고 셀을 클릭하면 클릭한 셀의 해당지역 좌표값을 가지고   
