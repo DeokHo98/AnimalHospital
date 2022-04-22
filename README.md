@@ -260,3 +260,40 @@ private func lodingViewOFF() {
 ```
 </details>
 
+
+
+### 수정요청, 제보기능
+
+![Simulator Screen Recording - iPhone 13 Pro - 2022-04-22 at 17 03 38](https://user-images.githubusercontent.com/93653997/164645152-cef8e7a0-2c26-49fc-ab2a-729c620fc962.gif)
+
+
+병원의 정보가 잘못되었거나 수정할정보가 있으면 수정사항을 사용자가 요청할수 있는 기능입니다.   
+또한 제보를 통해 새로운 병원을 알릴 수 있습니다.     
+수정요청이나 제보을 하면 파이어스토어에 항목에 정보가 올라옵니다.   
+
+<img width="779" alt="스크린샷 2022-04-22 오후 5 04 56" src="https://user-images.githubusercontent.com/93653997/164645445-aaefcce1-3dae-4baa-87c7-5142670c9d74.png">
+
+   
+<details>
+<summary>코드보기</summary>
+
+
+제보, 수정요청 서비스 코드
+```swift
+struct EditService {
+    static func uploadEditData(type: String, name: String, text: String,compliton: @escaping (Error?) -> Void) {
+        let db = Firestore.firestore().collection(type)
+        db.document().setData(["병원이름": name,"수정내용" : text]) { error in
+            compliton(error)
+        }
+    }
+    
+    static func report(name: String, address: String, compltion: @escaping (Error?) -> Void) {
+        let db = Firestore.firestore().collection("새로운 병원 제보")
+        db.document().setData(["병원이름": name,"위치" : address]) { error in
+            compltion(error)
+        }
+    }
+}
+```
+
