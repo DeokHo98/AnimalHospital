@@ -234,8 +234,8 @@ private func lodingViewOFF() {
         //네이버 공식문서에서 같은 이미지를 쓰는경우 오버레이 이미지를 하나만 생성해서 사용해야한다고 합니다.
         let image = NMFOverlayImage(name: "마커이미지")
         loadingView.removeFromSuperview()
-        DispatchQueue.global(qos: .default).async { [weak self] in
-            for models in self!.hospitalViewModel.models {
+            for models in hospitalViewModel.models {
+                DispatchQueue.global(qos: .default).async { [weak self] in
                 let marker = NMFMarker()
                 marker.iconImage = image
                 marker.position = NMGLatLng(lat: models.x, lng: models.y)
@@ -252,10 +252,10 @@ private func lodingViewOFF() {
                 }
                 DispatchQueue.main.async { [weak self] in
                     marker.mapView = self?.naverMapView
+                   }
                 }
             }
         }
-    }
 ```
 </details>
 
