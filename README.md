@@ -418,8 +418,6 @@ struct ImageLoader {
 </details>
 
 
-## 문제해결 
-
 
 ## 앱스토어 심사
 1. 첫번째 리젝   
